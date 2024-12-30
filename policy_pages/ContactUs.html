@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
+    <title>Accessibility Statement - Man Kave</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+</head>
+<body class="policy-page">
+
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="contact">
+            <h1>Contact Us</h1>
+            <p>
+                We’re here to help! Whether you have a question about a product, need assistance with an order, or want to share feedback, our team is happy to assist you. Please use any of the methods below to get in touch.
+            </p>
+        
+            <div class="contact-options">
+                <h2>Contact Information</h2>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:support@mankave.store">support@mankave.store</a></li>
+                    <li><strong>Phone:</strong> ‪<a href="tel:+18136493341">(813) 649-3341‬</a></li>
+                    <li><strong>Business Address:</strong><br>
+                        1225 7th St S<br>
+                        Safety Harbor, Florida 34695
+                    </li>
+                </ul>
+            </div>
+        
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                <p>
+                    Fill out the form below, and we’ll get back to you as soon as possible, typically within 1-2 business days.
+                </p>
+                <form action="/submit_contact" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        
+            <div class="social-media">
+                <h2>Connect with Us</h2>
+                <p>Follow us on social media for updates, promotions, and more:</p>
+                <ul>
+                    <li><a href="https://facebook.com/mankave" target="_blank">Facebook</a></li>
+                    <li><a href="https://instagram.com/mankave" target="_blank">Instagram</a></li>
+                    <li><a href="https://twitter.com/mankave" target="_blank">Twitter</a></li>
+                    <li><a href="https://pinterest.com/mankave" target="_blank">Pinterest</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script>
+        // Load header and footer dynamically
+        fetch('/header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header-placeholder').innerHTML = data)
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+    <script src="../account.js"></script>
+    <script src="../script.js"></script>
+
+
+
+</body>
+</html>

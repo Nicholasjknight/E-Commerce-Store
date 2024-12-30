@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Man Kave Product Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container2 {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #thumbnailCarousel {
+            display: flex;
+            flex-direction: column; /* Stack rows vertically */
+            gap: 10px; /* Space between rows */
+            max-width: 400px; /* Match the main image width */
+            overflow: hidden;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            justify-content: space-between; /* Distribute thumbnails evenly */
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: calc((100% - 30px) / 4); /* Adjust width for 4 thumbnails per row */
+            height: auto;
+            object-fit: cover;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .thumbnail.active {
+            border-color: #333;
+        }
+
+        .main-image {
+            width: 400px;
+            height: auto;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e60023;
+        }
+        .variant-options {
+            margin: 20px 0;
+            max-width: 15%;
+        }
+        /* Styling for color options */
+        #colorOptions {
+            display: grid; /* Enable grid layout */
+            grid-template-columns: repeat(8, 1fr); /* Ensure exactly 10 thumbnails per row */
+            gap: 10px; /* Space between thumbnails */
+            justify-items: center; /* Center thumbnails in their grid cells */
+            max-width: 100%; /* Allow container to expand fully */
+        }
+
+        .variant-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .variant-thumbnail {
+            width: 80px; /* Thumbnail width */
+            height: 80px; /* Thumbnail height */
+            object-fit: cover;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .variant-option.active .variant-thumbnail {
+            border-color: #e60023; /* Highlight the selected thumbnail */
+        }
+        /* Styling for size options */
+        #sizeOptions {
+            display: grid; /* Enable grid layout */
+            grid-template-columns: repeat(10, 1fr); /* 10 columns per row */
+            gap: 10px; /* Space between buttons */
+            justify-items: center; /* Center align buttons */
+            max-width: 100%; /* Ensure full container width */
+            margin-top: 20px; /* Space between thumbnails and size options */
+        }
+
+        .size-button {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .size-button.active {
+            background-color: #e60023;
+            color: white;
+            border-color: #e60023;
+        }
+
+        .size-button:hover {
+            background-color: #ddd;
+            border-color: #999;
+        }
+
+        .checkout-sidebar {
+            width: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+        .checkout-sidebar img{
+            width: 100% !important;
+            margin: 15px auto;
+        }
+        #addToCartButton {
+            width: 95%;
+            height: 40px;
+            margin: 15px auto;
+            background-color: #e60023;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <div class="container2">
+        <!-- Image Gallery -->
+        <div class="image-gallery">
+            <img id="mainImage" src="product_images/default_image.webp" alt="Product Image" class="main-image">
+            <div class="carousel" id="thumbnailCarousel"></div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <h1 class="product-title" id="productTitle">Product Title</h1>
+            <p class="price" id="productPrice">$0.00</p>
+            <p id="productDescription">Product description will appear here.</p>
+
+            <div class="variant-options">
+                <h3>Available Options</h3>
+                <div><strong>Color:</strong><div id="colorOptions"></div></div>
+                <div><strong>Size:</strong><div id="sizeOptions"></div></div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="checkout-sidebar">
+            <h3 id="sidebarPrice">$0.00</h3>
+            <p>Selected Variant: <span id="selectedVariant">Default</span></p>
+            <img id="selectedVariantThumbnail" src="" alt="Selected Variant" style="width: 50px; height: auto;">
+            <p>Size: <span id="selectedSize">Default</span></p>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" value="1" min="1">
+            <button id="addToCartButton" class="snipcart-add-item">Add to Cart</button>
+            <button id="buyNowButton" 
+            class="snipcart-add-item" 
+            data-item-id="" 
+            data-item-name="" 
+            data-item-price="" 
+            data-item-url="" 
+            data-item-description="" 
+            data-item-image="" 
+            data-item-quantity="">
+        Buy Now
+    </button>
+    
+           
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Load header and footer dynamically
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+    <script src="product_page.js"></script>
+    <script src="script.js"></script>
+    <script src="account.js"></script>
+
+
+<div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+<script>
+    window.SnipcartSettings = {
+        publicApiKey: 'Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2',
+        loadStrategy: 'on-user-interaction',
+    };
+
+    (() => {
+        var c, d;
+        (d = (c = window.SnipcartSettings).version) != null || (c.version = "3.0");
+        var s = document.createElement("script");
+        s.src = `https://cdn.snipcart.com/themes/v${window.SnipcartSettings.version}/default/snipcart.js`;
+        s.async = true;
+        document.head.appendChild(s);
+    })();
+</script>
+
+</body>
+</html>

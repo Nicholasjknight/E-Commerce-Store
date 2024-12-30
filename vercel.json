@@ -1,0 +1,14 @@
+{
+    "routes": [
+        {
+            "src": "/.*",
+            "headers": {
+                "Cache-Control": "no-store",
+                "Access-Control-Allow-Origin": "*"
+            }
+        }
+    ],
+    "env": {
+        "SNIPCART_API_KEY": "@snipcart_api_key"
+    }
+}

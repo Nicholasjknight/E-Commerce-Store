@@ -1,0 +1,250 @@
+<!-- HEADER START -->
+<header class="main-header">
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-row">
+                <div class="col-left modified-left-layout">
+                    <!-- Left-aligned content -->
+                    <ul class="service-links">
+                        <li><a href="#">Customer Care</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="col-right">
+                    <!-- Right-aligned content -->
+                    <ul class="account-links">
+                        <li id="signInLink">
+                            <a href="#" onclick="openModal('loginModal')">Sign In</a>
+                        </li>
+                        <li id="registerLink"><a href="#" onclick="openModal('registerModal')">Create Account</a></li>
+                        <li id="customerDashboard">
+                            <a href="#" onclick="openModal('customerDashboardModal')">Your Account</a>
+                        </li>
+                        <!-- This link now opens the Snipcart sidebar -->
+                        <li><a href="#" class="snipcart-checkout">Cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header Content -->
+    <div class="header-main">
+        <div class="container">
+            <div class="header-row">
+                <!-- Logo Section -->
+                <div class="col-logo">
+                    <a href="/index.html">
+                        <img src="/images/ManCavesLogo.png" alt="Man Kave Logo" class="logo-image">
+                    </a>
+                </div>
+
+                <!-- Search Section -->
+                <div class="col-search">
+                    <form class="search-form">
+                        <input type="text" placeholder="Search" class="search-input">
+                        <button type="submit" class="search-button"><i class="icon-search"></i>Search</button>
+                    </form>
+                </div>
+
+                <!-- Cart Section -->
+                <div class="col-cart">
+                    <button class="cart-summary snipcart-checkout" style="background: none; border: none; cursor: pointer;">
+                        <img src="/images/emptycart.png" alt="Empty Cart" class="cart-icon" id="cartIcon">
+                        <span class="cart-count" id="cartCount">0</span>
+                        <span>Items</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sign In Modal -->
+<div id="loginModal" class="modal3">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
+        <h2 class="modal-header">Login to Your Account</h2>
+        <form id="loginForm">
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" name="email" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="password" required>
+            <button type="submit">Sign In</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="openModal('registerModal'); closeModal('loginModal')">Register here</a></p>
+        <p class="forgot-password">
+            <a href="#" onclick="openForgotPasswordModal()">Forgot Password?</a>
+        </p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal3">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('registerModal')">&times;</span>
+        <h2 class="modal-header">Create Your Account</h2>
+        <form id="registerForm">
+            <!-- Email Field -->
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" name="email" required>
+            <small id="emailFeedback" class="feedback"></small>
+
+            <!-- Password Field with Strength Indicator -->
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" name="password" required>
+            <small class="tooltip">8 characters minimum, including at least one uppercase letter, one number, and one special character.</small>
+            <div id="password-strength" class="strength-bar"></div>
+            <small id="passwordFeedback" class="feedback"></small>
+
+            <!-- Confirm Password Field -->
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirmPassword" required>
+            <small id="confirmPasswordFeedback" class="feedback"></small>
+
+            <!-- Terms Checkbox -->
+            <label class="terms">
+                <input type="checkbox" id="terms-checkbox" required> I agree to the <a href="#">Terms and Privacy Policy</a>
+            </label>
+
+            <button type="submit" disabled id="registerButton">Register</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Customer Dashboard Modal -->
+<div id="customerDashboardModal" class="modal2">
+    <div class="modal-content2">
+        <span class="modal-close" onclick="closeModal('customerDashboardModal')">&times;</span>
+        <div class="dashboard-container">
+            <div class="dashboard-sidebar">
+                <h2>Your Account</h2>
+                <section id="account-details">
+                    <h3>Account Details</h3>
+                    <form id="accountForm">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" disabled><br>
+                        <label for="address">Shipping Address:</label><br>
+                        <textarea id="address"></textarea><br>
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </section>
+                <section id="return-requests">
+                    <h3>Request a Return</h3>
+                    <form id="returnForm">
+                        <label for="orderID">Order ID:</label><br>
+                        <input type="text" id="orderID" required><br>
+                        <label for="reason">Reason for Return:</label><br>
+                        <textarea id="reason" required></textarea><br>
+                        <button type="submit">Submit Return Request</button>
+                    </form>
+                </section>
+            </div>
+            <div class="dashboard-main">
+                <h2>Your Orders</h2>
+                <div id="orderList">
+                    <!-- Orders will load dynamically with JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- NAVIGATION MENU -->
+<nav class="main-nav">
+<!-- Hamburger Menu for opening the sidebar -->
+<div class="hamburger-menu" onclick="toggleSidebar()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Main Navigation Links -->
+<ul class="menu-list">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/catalog.html">All Products</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle">Collections</a>
+        <ul class="dropdown-menu">
+            <li><a href="/catalog.html">All Products</a></li>
+            <li><a href="/collection_pages/apparel.html">Apparel & Clothing</a></li>
+            <li><a href="/collection_pages/auto.html">Automotive</a></li>
+            <li><a href="/collection_pages/barware.html">Barware</a></li>
+            <li><a href="/collection_pages/furniture.html">Furniture</a></li>
+            <li><a href="/collection_pages/outdoor.html">Outdoor</a></li>
+            <li><a href="/collection_pages/pets.html">Pets</a></li>
+            <li><a href="/collection_pages/sports_games.html">Sports & Games</a></li>
+            <li><a href="/collection_pages/tech_gadgets.html">Tech & Gadgets</a></li>
+            <li><a href="/collection_pages/wallart.html">Wall Art</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Best Sellers</a></li>
+    <li><a href="#">Offers</a></li>
+</ul>
+<button id="theme-toggle">Dark Mode</button>
+
+
+</nav>
+
+<!-- Breadcrumbs will be dynamically injected by script.js -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    </ol>
+</nav>
+
+<!-- Sidebar for categories (initially hidden) -->
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <span id="sidebar-greeting">Hello, Shopper!</span>
+        <button class="close-btn" onclick="toggleSidebar()">&#10005;</button>
+    </div>
+    
+    <ul class="sidebar-menu">
+ 
+      <li><strong>Shop by Department</strong></li>
+      <li><a href="/collection_pages/apparel.html">Apparel & Clothing</a></li>
+      <li><a href="/collection_pages/auto.html">Automotive</a></li>
+      <li><a href="/collection_pages/barware.html">Barware</a></li>
+      <li><a href="/collection_pages/furniture.html">Furniture</a></li>
+      <li><a href="/collection_pages/outdoor.html">Outdoor</a></li>
+      <li><a href="/collection_pages/pets.html">Pets</a></li>
+      <li><a href="/collection_pages/sports_games.html">Sports & Games</a></li>
+      <li><a href="/collection_pages/tech_gadgets.html">Tech & Gadgets</a></li>
+      <li><a href="/collection_pages/wallart.html">Wall Art</a></li>
+  
+      <li><strong>Support & Policies</strong></li>
+      <li><a href="/policy_pages/AboutUs.html">About Us</a></li>
+      <li><a href="/policy_pages/ShippingPolicy.html">Shipping Policy</a></li>
+      <li><a href="/policy_pages/ReturnAndRefundPolicy.html">Return Policy</a></li>
+      <li><a href="/policy_pages/ContactUs.html">Contact Us</a></li>
+    </ul>
+  
+    <!-- Sticky Bottom Section -->
+    <div class="sidebar-bottom">
+      <ul class="sidebar-menu">
+        <li><strong>My Account</strong></li>
+        <li><a href="#" onclick="openModal('registerModal')">Create Account</a></li>
+        <li><a href="#" onclick="openModal('customerDashboardModal')">Your Account</a></li>
+      </ul>
+  
+      <!-- Social Media Links -->
+      <div class="sidebar-social">
+        <strong>Connect With Us</strong>
+        <br><br>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/ManKave" target="_blank"><img src="/images/Facebook_Logo_Primary.png" alt="Facebook"></a>
+          <a href="https://www.instagram.com/ManKave" target="_blank"><img src="/images/InstagramLogo.png" alt="Instagram"></a>
+          <a href="https://www.twitter.com/ManKave" target="_blank"><img src="/images/XLogoBlack.png" alt="Twitter"></a>
+          <a href="https://www.pinterest.com/ManKave" target="_blank"><img src="/images/PintrestLogo.png" alt="Pinterest"></a>
+        </div>
+        <div class="stickyLogin">
+        <a href="#" onclick="openModal('loginModal')">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/search.js"></script>

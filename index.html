@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./images/ManCavesLogo.png" type="image/x-icon">
+    <title>Man Kave</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Snipcart styles and script -->
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    <script type="module" src="script.js"></script>
+
+</head>
+
+<body>
+    <!-- Snipcart data element for API key -->
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+
+    <div id="header-placeholder"></div>
+
+    <!-- MAIN CONTENT START -->
+    <div class="main-content">
+        <!-- Carousel / Banner Section -->
+        <section class="slideshow-section">
+            <div class="slideshow">
+                <img src="images/4e6a4d78-abca-43ed-926c-5b855f5ab6f4.png" alt="Banner 1" class="visible">
+                <img src="images/DALL·E 2024-09-21 20.50.09 - A cozy man cave with a person sitting in front of a triple-monitor setup, playing or watching something on all screens. The room is carved out of a ca.webp" alt="Banner 2">
+                <img src="images/DALL·E 2024-09-22 00.48.07 - A bright room inside a cave filled with high-tech gadgets and equipment. The cave walls are smooth and illuminated by soft, natural light from an over.webp" alt="Banner 3">
+            </div>
+        </section>
+
+        <!-- Dynamic Product Recommendations -->
+<!-- Dynamic Product Recommendations -->
+<section class="product-recommendations">
+    <!-- Top Products Section -->
+    <div class="product-section" id="top-products">
+        <h2>Top Products</h2>
+        <div class="carousel-container">
+            <button class="carousel-button left" onclick="scrollCarousel('top-products', 'left')">&#8249;</button>
+            <div class="product-grid product-grid-recommendations"></div>
+            <button class="carousel-button right" onclick="scrollCarousel('top-products', 'right')">&#8250;</button>
+        </div>
+    </div>
+
+    <!-- Recently Viewed Section -->
+    <div class="product-section" id="recently-viewed">
+        <h2>Pick Up Where You Left Off</h2>
+        <div class="carousel-container">
+            <button class="carousel-button left" onclick="scrollCarousel('recently-viewed', 'left')">&#8249;</button>
+            <div class="product-grid product-grid-recommendations"></div>
+            <button class="carousel-button right" onclick="scrollCarousel('recently-viewed', 'right')">&#8250;</button>
+        </div>
+    </div>
+
+    <!-- Customer Interest Section -->
+    <div class="product-section" id="customer-interest">
+        <h2>Previously Purchased / Added to Cart</h2>
+        <div class="carousel-container">
+            <button class="carousel-button left" onclick="scrollCarousel('customer-interest', 'left')">&#8249;</button>
+            <div class="product-grid product-grid-recommendations"></div>
+            <button class="carousel-button right" onclick="scrollCarousel('customer-interest', 'right')">&#8250;</button>
+        </div>
+    </div>
+</section>
+
+    </div>
+    <div id="footer-placeholder"></div>
+
+    <!-- Load header and footer -->
+    <script>
+fetch('/header.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+
+        // Observe the header-placeholder for changes to ensure #theme-toggle exists
+        const observer = new MutationObserver(() => {
+            const themeToggle = document.getElementById("theme-toggle");
+            if (themeToggle) {
+                initializeThemeToggle(); // Initialize theme toggle
+                observer.disconnect(); // Stop observing after initialization
+            }
+        });
+
+        observer.observe(document.getElementById('header-placeholder'), { childList: true, subtree: true });
+    })
+    .catch(error => console.error('Error loading header:', error));
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch("updated_products.json")
+            .then((response) => response.json())
+            .then((products) => {
+                // Render the three sections
+                populateSection("top-products", filterByCategory(products, "Treasures"));
+                populateSection("recently-viewed", filterByStorage(products, "recentlyViewed"));
+                populateSection("customer-interest", filterByStorage(products, "shownInterest"));
+            })
+            .catch((error) => console.error("Error loading product data:", error));
+    });
+
+    function filterByCategory(products, categoryKeyword) {
+        return products.filter(product => product.category.includes(categoryKeyword));
+    }
+
+    function filterByStorage(products, storageKey) {
+        const storedHandles = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        return products.filter(product => 
+            product.offers.some(offer => storedHandles.includes(offer.handle))
+        );
+    }
+
+    function populateSection(sectionId, products) {
+        const sectionContainer = document.getElementById(sectionId)?.querySelector(".product-grid");
+
+        if (!sectionContainer) {
+            console.warn(`Section container with ID "${sectionId}" or ".product-grid" not found.`);
+            return;
+        }
+
+        sectionContainer.innerHTML = ""; // Clear existing content
+
+        if (products.length === 0) {
+            sectionContainer.innerHTML = `
+                <div class="no-products">
+                    <p>${sectionId === "recently-viewed" ? "No Previous Product History" : "No Products Found"}</p>
+                </div>
+            `;
+            return;
+        }
+
+        products.slice(0, 15).forEach(product => {
+            const card = createProductCard(product);
+            sectionContainer.appendChild(card);
+        });
+    }
+
+    function createProductCard(product) {
+    const { name, description, image, offers } = product;
+    const firstImage = image[0];
+    const { price, handle } = offers[0];
+
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    card.innerHTML = `
+        <img src="${firstImage}" alt="${name}" class="product-image" />
+        <h3 class="product-title">${name}</h3>
+        <p class="product-description">${description}</p>
+        <p class="product-price">$${price.toFixed(2)}</p>
+    `;
+
+    // Add Click-to-Redirect Functionality
+    card.addEventListener("click", () => {
+        window.location.href = `product_page.html?handle=${handle}`;
+    });
+
+    return card;
+}
+
+
+</script>
+    <script type="module" src="/render_products.js"></script>
+    <script defer src="/account.js"></script>
+    <script src="/script.js"></script>
+    <script type="module" src="/JSON-LD_breadcrumbs.js"></script>
+    <script src="/search.js"></script>
+    
+</body>
+</html>

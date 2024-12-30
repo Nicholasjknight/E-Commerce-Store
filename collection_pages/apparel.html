@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apparel Collection</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+</head>
+<body>
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+
+    <div id="header-placeholder"></div>
+
+    <h1>Apparel Collection</h1>
+    <div id="catalog-container" class="catalog-grid"></div>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module">
+        import { loadProducts, renderProducts, renderHeaderImages } from '/render_products.js';
+    
+        document.addEventListener('DOMContentLoaded', async () => {
+            const products = await loadProducts();
+            const category = 'Apparel'; // Filter products by the "Apparel" category
+            const filteredProducts = products.filter((product) =>
+                product.category && product.category.includes(category)
+            );
+    
+            renderProducts(filteredProducts, 'catalog-container');
+        });
+    
+        // Load header and footer dynamically
+        fetch('/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                renderHeaderImages(); 
+            })
+            .catch(error => console.error('Error loading header:', error));
+    
+        fetch('/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+    <script defer src="/account.js"></script>
+    <script defer src="/script.js"></script>
+</body>
+</html>

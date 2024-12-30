@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+</head>
+<body>
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+
+    <div id="header-placeholder"></div>
+
+    <h1>Product Catalog</h1>
+    <div id="filter-container" class="filter-container">
+        <!-- Optional filter dropdown -->
+        <select id="filterOptions" class="filter-select">
+            <option value="default">Sort By</option>
+            <option value="az">A-Z</option>
+            <option value="lowPrice">Lowest Price</option>
+            <option value="highPrice">Highest Price</option>
+        </select>
+    </div>
+    <div id="catalog-container" class="catalog-grid"></div>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module">
+        import { loadProducts, renderProducts, renderHeaderImages } from '/render_products.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const products = await loadProducts();
+            
+            // Optional filter functionality for sorting
+            const filterSelect = document.getElementById('filterOptions');
+            const renderAllProducts = () => {
+                renderProducts(products, 'catalog-container');
+            };
+
+            filterSelect.addEventListener('change', () => {
+                const sortOption = filterSelect.value;
+                let sortedProducts = [...products]; // Copy products to avoid modifying original
+
+                if (sortOption === 'az') {
+                    sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                } else if (sortOption === 'lowPrice') {
+                    sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
+                } else if (sortOption === 'highPrice') {
+                    sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
+                }
+                
+                renderProducts(sortedProducts, 'catalog-container');
+            });
+
+            // Initial rendering of all products
+            renderAllProducts();
+        });
+
+        // Load header and footer dynamically
+        fetch('/header.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+
+        // Add the event listener for "Sign In" link after header is loaded
+        const signInLink = document.getElementById("signInLink");
+        if (signInLink) {
+            signInLink.addEventListener("click", () => {
+                openModal("loginModal");
+            });
+        } else {
+            console.error('Sign In link not found in the loaded header.');
+        }
+    })
+    .catch(error => console.error('Error loading header:', error));
+
+
+        fetch('/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+    <script defer src="/account.js"></script>
+    <script defer src="/script.js"></script>
+</body>
+</html>
