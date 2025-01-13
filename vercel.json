@@ -9,6 +9,6 @@
         }
     ],
     "env": {
-        "SNIPCART_API_KEY": "@snipcart_api_key"
+        "SNIPCART_API_KEY": "SNIPCART_API_KEY"
     }
 }
