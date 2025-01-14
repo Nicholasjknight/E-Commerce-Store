@@ -9,6 +9,13 @@
         }
     ],
     "env": {
-        "SNIPCART_API_KEY": "SNIPCART_API_KEY"
+        "FIREBASE_API_KEY": "AIzaSyAfxbw_Ur2jfQDZqEh-wBX9Lqeo1RdAIPA",
+        "FIREBASE_AUTH_DOMAIN": "customeraccounts-a29eb.firebaseapp.com",
+        "FIREBASE_PROJECT_ID": "customeraccounts-a29eb",
+        "FIREBASE_STORAGE_BUCKET": "customeraccounts-a29eb.appspot.com",
+        "FIREBASE_MESSAGING_SENDER_ID": "4968118695",
+        "FIREBASE_APP_ID": "1:4968118695:web:079298c836a3d5f5551e82",
+        "SNIPCART_API_KEY": "Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"
+
     }
 }

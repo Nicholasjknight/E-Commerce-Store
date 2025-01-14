@@ -1,2 +1,16 @@
-<!-- snipcart.html -->
 <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+<script>
+    const snipcartDiv = document.getElementById('snipcart');
+
+    const script = document.createElement('script');
+    script.src = "https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+        console.log("Snipcart initialized.");
+    };
+    script.onerror = () => {
+        console.error("Failed to load Snipcart script.");
+    };
+</script>
