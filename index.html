@@ -18,18 +18,7 @@
 <body>
     <!-- Snipcart data element for API key -->
     <div hidden id="snipcart"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const snipcartDiv = document.getElementById("snipcart");
-            const apiKey = window.env?.SNIPCART_API_KEY || process.env.SNIPCART_API_KEY;
-            if (apiKey) {
-                snipcartDiv.setAttribute("data-api-key", apiKey);
-                console.log("Snipcart API key applied dynamically.");
-            } else {
-                console.error("Snipcart API key missing.");
-            }
-        });
-    </script>
+
     <div id="header-placeholder"></div>
 
     <!-- MAIN CONTENT START -->
@@ -100,7 +89,7 @@ fetch('/header.html')
     })
     .catch(error => console.error('Error loading header:', error));
 
-        fetch('footer.html')
+        fetch('/footer.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
@@ -110,6 +99,15 @@ fetch('/header.html')
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || process.env.SNIPCART_API_KEY;
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied dynamically.");
+            } else {
+                console.error("Snipcart API key missing.");
+            }
+
         fetch("updated_products.json")
             .then((response) => response.json())
             .then((products) => {
