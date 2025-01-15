@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Error initializing Firebase:", error.message);
     }
-});
+}); // End DOMContentLoaded
 
 
 
