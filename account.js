@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("account.js: DOM fully loaded and parsed");
 
     try {
-        // Import Firebase SDK modules
+        // Import Firebase SDK modules dynamically
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
         const { 
             getAuth, 
@@ -15,18 +15,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Dynamically choose environment variables (local: window.env, production: process.env)
         const firebaseConfig = {
-            apiKey: window.env?.FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
-            authDomain: window.env?.FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
-            projectId: window.env?.FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-            storageBucket: window.env?.FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: window.env?.FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
-            appId: window.env?.FIREBASE_APP_ID || process.env.FIREBASE_APP_ID
+            apiKey: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_API_KEY) || window.env?.FIREBASE_API_KEY,
+            authDomain: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN) || window.env?.FIREBASE_AUTH_DOMAIN,
+            projectId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) || window.env?.FIREBASE_PROJECT_ID,
+            storageBucket: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET) || window.env?.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID) || window.env?.FIREBASE_MESSAGING_SENDER_ID,
+            appId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_APP_ID) || window.env?.FIREBASE_APP_ID,
         };
 
-        // Check Firebase Config (Debugging)
+        // Debugging: Log the config being used
         console.log("Firebase Config Loaded:", firebaseConfig);
 
-        // Initialize Firebase
+        // Initialize Firebase App and Auth
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         console.log("Firebase initialized.");
@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error initializing Firebase:", error.message);
     }
 });
+
 
 
 // Modal management
