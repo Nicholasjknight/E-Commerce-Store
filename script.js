@@ -20,7 +20,27 @@ function initializeThemeToggle() {
     });
 }
 
+// Snipcart Initialization Wait Function
+function waitForSnipcart(callback, interval = 500, maxRetries = 10) {
+    let retries = 0;
+
+    const checkSnipcart = setInterval(() => {
+        if (typeof Snipcart !== "undefined" && Snipcart.store) {
+            console.log("Snipcart is fully initialized.");
+            clearInterval(checkSnipcart);
+            callback();
+        } else {
+            retries++;
+            if (retries >= maxRetries) {
+                console.error("Snipcart failed to initialize after multiple attempts.");
+                clearInterval(checkSnipcart);
+            }
+        }
+    }, interval);
+}
+
 // Wrap remaining logic in DOMContentLoaded
+// Ensures proper order of execution and avoids conflicts with other scripts
 document.addEventListener("DOMContentLoaded", () => {
     console.log("script.js initialized.");
 
@@ -29,7 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (signInLink) {
         signInLink.addEventListener("click", (event) => {
             event.preventDefault();
-            if (localStorage.getItem("isLoggedIn") === "true") {
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+            if (isLoggedIn) {
                 alert("You have been signed out.");
                 localStorage.setItem("isLoggedIn", "false");
                 signInLink.textContent = "Sign In";
@@ -74,9 +95,14 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(showNextImage, 5000);
         showNextImage();
     }
+
+    // Initialize Snipcart-related scripts
+    waitForSnipcart(() => {
+        console.log("Initializing Snipcart-related scripts.");
+        initializeCartUI();
+        loadPurchasedOrCartItems();
+    });
 });
-
-
 
 // Sidebar Toggle with Safeguard
 function toggleSidebar() {
@@ -108,8 +134,8 @@ function initializeCartUI() {
         Snipcart.store.subscribe(updateCartUI);
         updateCartUI();
     } else {
-        console.warn("Snipcart is not ready. Retrying initialization...");
-        setTimeout(initializeCartUI, 1000); // Retry after 1 second
+        console.warn("Snipcart is not ready. Retrying cart UI initialization...");
+        setTimeout(initializeCartUI, 1000);
     }
 }
 
@@ -161,6 +187,7 @@ function renderNoProductHistory(container) {
         </div>
     `;
 }
+
 function renderProducts(productList, container) {
     if (!container) {
         console.warn("Container for rendering products is not defined.");
@@ -198,15 +225,6 @@ function renderProducts(productList, container) {
         container.appendChild(productCard);
     });
 }
-
-// Safely Initialize Scripts
-function initializeSnipcartScripts() {
-    console.log("Snipcart is ready. Initializing UI updates and product history.");
-    initializeCartUI();
-    loadPurchasedOrCartItems();
-}
-
-document.addEventListener("snipcart.ready", initializeSnipcartScripts);
 
 function scrollCarousel(sectionId, direction) {
     const section = document.getElementById(sectionId);

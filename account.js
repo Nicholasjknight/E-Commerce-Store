@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Dynamically choose environment variables (local: window.env, production: process.env)
         const firebaseConfig = {
-            apiKey: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_API_KEY : window.env?.FIREBASE_API_KEY,
-            authDomain: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN : window.env?.FIREBASE_AUTH_DOMAIN,
-            projectId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID : window.env?.FIREBASE_PROJECT_ID,
-            storageBucket: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET : window.env?.FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID : window.env?.FIREBASE_MESSAGING_SENDER_ID,
-            appId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_APP_ID : window.env?.FIREBASE_APP_ID,
-        };
+            apiKey: typeof window.env !== "undefined" ? window.env.FIREBASE_API_KEY : process.env.FIREBASE_API_KEY,
+            authDomain: typeof window.env !== "undefined" ? window.env.FIREBASE_AUTH_DOMAIN : process.env.FIREBASE_AUTH_DOMAIN,
+            projectId: typeof window.env !== "undefined" ? window.env.FIREBASE_PROJECT_ID : process.env.FIREBASE_PROJECT_ID,
+            storageBucket: typeof window.env !== "undefined" ? window.env.FIREBASE_STORAGE_BUCKET : process.env.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: typeof window.env !== "undefined" ? window.env.FIREBASE_MESSAGING_SENDER_ID : process.env.FIREBASE_MESSAGING_SENDER_ID,
+            appId: typeof window.env !== "undefined" ? window.env.FIREBASE_APP_ID : process.env.FIREBASE_APP_ID,
+        };        
         
 
         // Debugging: Log the config being used
@@ -152,49 +152,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Error initializing Firebase:", error.message);
     }
-}); // End DOMContentLoaded
 
-
-
-// Modal management
-function openModal(modalId) {
-    const allModals = document.querySelectorAll('.modal2, .modal3');
-    allModals.forEach(modal => modal.style.display = 'none');
-
-    const targetModal = document.getElementById(modalId);
-    if (targetModal) {
-        targetModal.style.display = 'block';
-    } else {
-        console.warn(`Modal with ID "${modalId}" not found.`);
-    }
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "none";
-    }
-}
-
-function closeAllModals(exceptions = []) {
-    const modals = document.querySelectorAll(".modal3");
-    modals.forEach(modal => {
-        if (!exceptions.includes(modal.id)) {
-            modal.style.display = "none";
-        }
-    });
-}
-
-// Password visibility toggle
-function togglePasswordVisibility(passwordFieldId) {
-    const passwordField = document.getElementById(passwordFieldId);
-    if (passwordField) {
-        passwordField.type = passwordField.type === "password" ? "text" : "password";
-    }
-}
-
-// Password strength and terms checkbox handling
-document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("register-password");
     const confirmPasswordInput = document.getElementById("confirm-password");
     const registerButton = document.getElementById("registerButton");
@@ -254,3 +212,39 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("Registration form elements not found.");
     }
 });
+
+// Modal management
+function openModal(modalId) {
+    const allModals = document.querySelectorAll('.modal2, .modal3');
+    allModals.forEach(modal => modal.style.display = 'none');
+
+    const targetModal = document.getElementById(modalId);
+    if (targetModal) {
+        targetModal.style.display = 'block';
+    } else {
+        console.warn(`Modal with ID "${modalId}" not found.`);
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+function closeAllModals(exceptions = []) {
+    const modals = document.querySelectorAll(".modal3");
+    modals.forEach(modal => {
+        if (!exceptions.includes(modal.id)) {
+            modal.style.display = "none";
+        }
+    });
+}
+// Password visibility toggle
+function togglePasswordVisibility(passwordFieldId) {
+    const passwordField = document.getElementById(passwordFieldId);
+    if (passwordField) {
+        passwordField.type = passwordField.type === "password" ? "text" : "password";
+    }
+}

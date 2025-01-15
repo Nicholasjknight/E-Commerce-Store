@@ -17,8 +17,19 @@
 
 <body>
     <!-- Snipcart data element for API key -->
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
-
+    <div hidden id="snipcart"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || process.env.SNIPCART_API_KEY;
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied dynamically.");
+            } else {
+                console.error("Snipcart API key missing.");
+            }
+        });
+    </script>
     <div id="header-placeholder"></div>
 
     <!-- MAIN CONTENT START -->
