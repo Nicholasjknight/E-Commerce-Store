@@ -15,13 +15,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Dynamically choose environment variables (local: window.env, production: process.env)
         const firebaseConfig = {
-            apiKey: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_API_KEY) || window.env?.FIREBASE_API_KEY,
-            authDomain: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN) || window.env?.FIREBASE_AUTH_DOMAIN,
-            projectId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) || window.env?.FIREBASE_PROJECT_ID,
-            storageBucket: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET) || window.env?.FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID) || window.env?.FIREBASE_MESSAGING_SENDER_ID,
-            appId: (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_APP_ID) || window.env?.FIREBASE_APP_ID,
+            apiKey: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_API_KEY : window.env?.FIREBASE_API_KEY,
+            authDomain: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN : window.env?.FIREBASE_AUTH_DOMAIN,
+            projectId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID : window.env?.FIREBASE_PROJECT_ID,
+            storageBucket: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET : window.env?.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID : window.env?.FIREBASE_MESSAGING_SENDER_ID,
+            appId: typeof process !== "undefined" ? process.env.NEXT_PUBLIC_FIREBASE_APP_ID : window.env?.FIREBASE_APP_ID,
         };
+        
 
         // Debugging: Log the config being used
         console.log("Firebase Config Loaded:", firebaseConfig);
