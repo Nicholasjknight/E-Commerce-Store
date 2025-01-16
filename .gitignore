@@ -1,6 +1,7 @@
 # Environment Variables
 .env.local
 env.js
+!/api/env.js
 
 # Node Modules
 node_modules/
