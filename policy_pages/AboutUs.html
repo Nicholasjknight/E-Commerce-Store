@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
-    <title>Accessibility Statement - Man Kave</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <meta name="description" content="About Us page for Man Kave, highlighting our mission, story, and customer-first approach.">
+    <title>About Us - Man Kave</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body class="policy-page">
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
 
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -21,24 +24,24 @@
             <p>
                 Welcome to <strong>Man Kave</strong>—your ultimate destination for unique, high-quality products designed to elevate your personal space and lifestyle. Founded with a passion for creativity, innovation, and an eye for what’s bold and functional, we bring you carefully curated items that reflect individuality and style.
             </p>
-        
+
             <h2>Our Story</h2>
             <p>
                 Man Kave started as a vision to create an online store that celebrates originality and functionality. With years of experience in e-commerce and web development, we built this platform from the ground up, custom-coding every detail to deliver an exceptional shopping experience. Our mission is to combine convenience with a wide range of thoughtfully selected products that fit seamlessly into any modern lifestyle.
             </p>
-        
+
             <h2>Why Shop with Us?</h2>
             <ul>
                 <li><strong>Handpicked Products:</strong> Every item in our store is carefully selected to ensure quality, durability, and style.</li>
                 <li><strong>Custom Experience:</strong> Our website is tailored to provide a seamless and intuitive shopping experience.</li>
                 <li><strong>Customer First:</strong> We prioritize your satisfaction with easy returns, transparent policies, and reliable customer support.</li>
             </ul>
-        
+
             <h2>What Sets Us Apart?</h2>
             <p>
                 At Man Kave, we are more than just an online store—we are a community of enthusiasts who value unique finds, excellent craftsmanship, and impeccable service. Whether you're looking to enhance your personal space or find the perfect gift, we aim to be your go-to destination for all things extraordinary.
             </p>
-        
+
             <h2>Contact Us</h2>
             <p>
                 We love hearing from our customers! If you have any questions, feedback, or just want to say hello, feel free to reach out:
@@ -48,31 +51,75 @@
                 <li>Phone: <a href="tel:+18136493341">(813) 649-3341</a></li>
             </ul>
         </section>
-        
-        
     </main>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
+    <!-- Initialization Script -->
     <script>
-fetch('/header.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        initializeDashboardTrigger(); // Ensure dashboard modal works
-    })
-    .catch(error => console.error('Error loading header:', error));
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
 
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
 
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    </script>
-    <script src="/account.js"></script>
-    <script src="/script.js"></script>
 
-
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>

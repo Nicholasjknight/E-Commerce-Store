@@ -4,51 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech & Gadgets</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body>
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
 
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
-    <h1>Apparel Collection</h1>
+    <!-- Main Content -->
+    <h1>Tech & Gadgets Collection</h1>
     <div id="catalog-container" class="catalog-grid"></div>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <script type="module">
-        import { loadProducts, renderProducts, renderHeaderImages } from '/render_products.js';
-    
-    document.addEventListener('DOMContentLoaded', async () => {
-    const products = await loadProducts();
-    const categories = ['Vehicle', 'Auto']; // Array of categories to filter by
+    <!-- Initialization Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
-    const filteredProducts = products.filter((product) =>
-        product.category && categories.some(category => product.category.includes(category))
-    );
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
 
-    renderProducts(filteredProducts, 'catalog-container');
-});
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
 
-    
-        // Load header and footer dynamically
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
-                renderHeaderImages(); 
-            })
-            .catch(error => console.error('Error loading header:', error));
-    
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Load and Render Products for the Tech & Gadgets Collection
+            const { loadProducts, renderProducts } = await import('../render_products.js'); // Adjusted path
+            const products = await loadProducts();
+
+            const categories = ['Tech', 'Gadgets', 'Electronics']; // Filter categories
+            const filteredProducts = products.filter(product =>
+                product.category && categories.some(category => product.category.includes(category))
+            );
+
+            renderProducts(filteredProducts, 'catalog-container');
+
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    <script defer src="/account.js"></script>
-    <script defer src="/script.js"></script>
+
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>

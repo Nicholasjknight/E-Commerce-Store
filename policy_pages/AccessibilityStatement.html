@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
     <title>Accessibility Statement - Man Kave</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body class="policy-page">
 
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
+
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -24,11 +28,9 @@
             <p>
                 Our team is committed to following recognized accessibility standards and guidelines, specifically the Web Content Accessibility Guidelines (WCAG) 2.1 at the AA level, to ensure our website meets or exceeds industry best practices for usability and inclusivity.
             </p>
-        
+
             <h2>Our Accessibility Features</h2>
-            <p>
-                To support an equitable online experience, we have implemented the following features:
-            </p>
+            <p>To support an equitable online experience, we have implemented the following features:</p>
             <ul>
                 <li>Full keyboard navigation support for browsing all areas of our website.</li>
                 <li>Text alternatives (alt text) for images, icons, and non-text elements to ensure compatibility with assistive technologies like screen readers.</li>
@@ -39,62 +41,104 @@
                 <li>Consistent and predictable navigation menus and links to reduce cognitive load.</li>
                 <li>Clear labeling and instructions for forms and input fields.</li>
             </ul>
-        
+
             <h2>Our Commitment to Accessibility</h2>
             <p>
                 Accessibility is an ongoing journey. We are continuously auditing and improving our website to ensure it remains accessible to everyone. This includes regularly testing the site with various assistive technologies, consulting with accessibility experts, and updating features to adhere to the latest standards.
             </p>
-        
+
             <h2>Feedback and Assistance</h2>
             <p>
                 We value your feedback as it helps us identify areas for improvement and ensures we address potential barriers. If you encounter accessibility issues or have suggestions for enhancing your experience, please don’t hesitate to contact us:
             </p>
             <ul>
                 <li>Email: <a href="mailto:support@mankave.store">support@mankave.store</a></li>
-                <li>Phone: ‪<a href="tel:+18136493341">(813) 649-3341‬</a></li>
+                <li>Phone: <a href="tel:+18136493341">(813) 649-3341</a></li>
                 <li>Contact Form: <a href="/contact.html">Submit Feedback</a></li>
             </ul>
-            <p>
-                If you require immediate assistance or need support accessing specific features or content, our team is here to help.
-            </p>
-        
+            <p>If you require immediate assistance or need support accessing specific features or content, our team is here to help.</p>
+
             <h2>Future Enhancements and Goals</h2>
-            <p>
-                At Man Kave, we are proactive in addressing accessibility needs. We partner with developers and accessibility specialists to identify new ways to improve usability. Our future plans include:
-            </p>
+            <p>At Man Kave, we are proactive in addressing accessibility needs. Our future plans include:</p>
             <ul>
                 <li>Adding more features tailored to the needs of users with disabilities, such as speech-to-text input for forms.</li>
                 <li>Enhanced testing and auditing with diverse user groups, including individuals with disabilities.</li>
                 <li>Integrating AI tools for real-time accessibility feedback and corrections.</li>
                 <li>Expanding educational resources for our team to maintain and advance our accessibility practices.</li>
             </ul>
-        
+
             <h2>Continuous Improvement</h2>
-            <p>
-                Accessibility is not a one-time project—it’s a continuous process. Our goal is to evolve alongside our customers’ needs and technological advancements. By fostering a culture of inclusivity and accessibility, we aim to make every customer’s experience at Man Kave positive and enjoyable.
-            </p>
+            <p>Accessibility is not a one-time project—it’s a continuous process. Our goal is to evolve alongside our customers’ needs and technological advancements. By fostering a culture of inclusivity and accessibility, we aim to make every customer’s experience at Man Kave positive and enjoyable.</p>
         </section>
-        
     </main>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
+    <!-- Initialization Script -->
     <script>
-        // Load header and footer dynamically
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('header-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading header:', error));
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
+
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
+
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    <script src="../account.js"></script>
-    <script src="../script.js"></script>
 
-
-
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>

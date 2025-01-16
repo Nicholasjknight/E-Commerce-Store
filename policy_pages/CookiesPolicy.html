@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
-    <title>Accessibility Statement - Man Kave</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <meta name="description" content="Cookies Policy for Man Kave, explaining how cookies are used to enhance your browsing experience.">
+    <title>Cookies Policy - Man Kave</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body class="policy-page">
 
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
+
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -21,23 +25,21 @@
             <p>
                 This Cookies Policy explains how Man Kave ("we", "our", or "us") uses cookies and similar technologies to enhance your browsing experience, understand user preferences, and improve our website. By continuing to use our website, you consent to the use of cookies in accordance with this policy.
             </p>
-        
+
             <h2>What Are Cookies?</h2>
             <p>
                 Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. Cookies allow websites to recognize your device, improve functionality, and customize content based on your preferences.
             </p>
-        
+
             <h2>How We Use Cookies</h2>
-            <p>
-                We use cookies to provide a seamless and personalized experience. Cookies help us to:
-            </p>
+            <p>We use cookies to provide a seamless and personalized experience. Cookies help us to:</p>
             <ul>
                 <li>Remember your preferences, such as language settings or saved items in your cart.</li>
                 <li>Analyze website performance and visitor behavior to improve our services.</li>
                 <li>Provide targeted advertisements and promotions relevant to your interests.</li>
                 <li>Maintain security and prevent fraudulent activities.</li>
             </ul>
-        
+
             <h2>Types of Cookies We Use</h2>
             <ul>
                 <li><strong>Essential Cookies:</strong> These are necessary for the basic functionality of our website, such as enabling secure logins and shopping cart functionality.</li>
@@ -45,7 +47,7 @@
                 <li><strong>Functional Cookies:</strong> These remember your preferences to enhance your browsing experience.</li>
                 <li><strong>Advertising Cookies:</strong> These cookies are used to deliver personalized ads based on your browsing activity.</li>
             </ul>
-        
+
             <h2>Managing Cookies</h2>
             <p>
                 You can manage or disable cookies through your browser settings. However, please note that disabling cookies may impact your ability to use certain features on our website. Instructions for managing cookies can typically be found in your browser’s help section:
@@ -56,48 +58,95 @@
                 <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank">Safari</a></li>
                 <li><a href="https://support.microsoft.com/en-us/topic/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a></li>
             </ul>
-        
+
             <h2>Third-Party Cookies</h2>
             <p>
                 We may also use third-party cookies provided by trusted partners to better understand our audience, display advertisements, and measure campaign effectiveness. These third parties may collect information about your online activities over time and across different websites.
             </p>
-        
+
             <h2>Updates to This Policy</h2>
             <p>
                 We may update this Cookies Policy from time to time to reflect changes in technology, legal requirements, or how we operate. Please review this page periodically for the latest information on our cookie practices.
             </p>
-        
+
             <h2>Contact Us</h2>
             <p>
                 If you have any questions or concerns about our use of cookies, please contact us at:
             </p>
             <ul>
                 <li>Email: <a href="mailto:support@mankave.store">support@mankave.store</a></li>
-                <li>Phone: ‪<a href="tel:+18136493341">(813) 649-3341‬</a></li>
+                <li>Phone: <a href="tel:+18136493341">(813) 649-3341</a></li>
             </ul>
         </section>
-        
-        
     </main>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
+    <!-- Initialization Script -->
     <script>
-        // Load header and footer dynamically
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('header-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading header:', error));
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
+
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
+
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    <script src="../account.js"></script>
-    <script src="../script.js"></script>
 
-
-
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>

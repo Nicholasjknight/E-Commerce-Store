@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
-    <title>Accessibility Statement - Man Kave</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <meta name="description" content="Shipping Policy for Man Kave, detailing processing times, shipping methods, and costs.">
+    <title>Shipping Policy - Man Kave</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body class="policy-page">
 
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
+
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -21,14 +25,14 @@
             <p>
                 At Man Kave, we aim to provide a reliable and seamless shipping experience. Below you will find details about our shipping process, timelines, and related policies.
             </p>
-        
+
             <h2>Processing Times</h2>
             <p>
                 - Orders are processed within <strong>1-2 business days</strong> after payment is received and verified.  
                 - Orders placed on weekends or holidays will be processed on the next business day.  
                 - You will receive a confirmation email with tracking information once your order has been shipped.
             </p>
-        
+
             <h2>Shipping Times</h2>
             <p>
                 The estimated delivery time for orders is <strong>2-10 business days</strong>, depending on your location. Please note:
@@ -37,7 +41,7 @@
                 <li>Delivery times may vary based on carrier schedules, holidays, or unexpected delays.</li>
                 <li>Remote or rural areas may require additional delivery time.</li>
             </ul>
-        
+
             <h2>Shipping Methods</h2>
             <p>
                 We partner with reliable carriers to ensure timely delivery. Available shipping methods will be displayed during checkout and may include:
@@ -46,12 +50,12 @@
                 <li>Standard Shipping</li>
                 <li>Expedited Shipping (where available)</li>
             </ul>
-        
+
             <h2>Shipping Costs</h2>
             <p>
                 Shipping costs are calculated at checkout based on the weight, dimensions, and destination of your order. Free shipping promotions, if applicable, will be clearly stated on the product page or during checkout.
             </p>
-        
+
             <h2>International Shipping</h2>
             <p>
                 Man Kave ships internationally to select countries. Please note:
@@ -63,12 +67,12 @@
             <p>
                 Currently, we do not ship to certain regions due to shipping restrictions or logistical limitations.
             </p>
-        
+
             <h2>Order Tracking</h2>
             <p>
                 Once your order has shipped, you will receive a tracking number via email. You can use this number to monitor your order's progress on the carrier's website. If you do not receive tracking information, please contact us for assistance.
             </p>
-        
+
             <h2>Lost or Delayed Shipments</h2>
             <p>
                 In the rare event that your order is lost or delayed:
@@ -77,7 +81,7 @@
                 <li>Contact us immediately at <a href="mailto:support@mankave.store">support@mankave.store</a> or <a href="tel:+18136493341">‪(813) 649-3341‬</a>.</li>
                 <li>We will work with the carrier to resolve the issue and provide updates promptly.</li>
             </ul>
-        
+
             <h2>Damaged or Incorrect Items</h2>
             <p>
                 If your order arrives damaged or contains incorrect items, please notify us within <strong>48 hours</strong> of delivery. Include:
@@ -87,7 +91,7 @@
                 <li>Photos of the damaged item(s) and packaging.</li>
             </ul>
             <p>We will arrange for a replacement or refund based on the situation.</p>
-        
+
             <h2>Contact Us</h2>
             <p>
                 For any shipping-related inquiries or concerns, please contact us:
@@ -95,30 +99,78 @@
             <ul>
                 <li>Email: <a href="mailto:support@mankave.store">support@mankave.store</a></li>
                 <li>Phone: <a href="tel:+18136493341">‪(813) 649-3341‬</a></li>
-                <li>Contact Form: <a href="/contact.html">Submit an Inquiry</a></li>
+                <li>Contact Form: <a href="/policy_pages/contactus.html">Submit an Inquiry</a></li>
             </ul>
         </section>
-        
-        
     </main>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
+    <!-- Initialization Script -->
     <script>
-        // Load header and footer dynamically
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('header-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading header:', error));
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
+
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
+
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    <script src="../account.js"></script>
-    <script src="../script.js"></script>
 
-
-
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>

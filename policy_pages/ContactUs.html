@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessibility Statement for Man Kave, ensuring digital accessibility for all users.">
-    <title>Accessibility Statement - Man Kave</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <meta name="description" content="Contact Man Kave for assistance with products, orders, or inquiries.">
+    <title>Contact Us - Man Kave</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="../env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
 <body class="policy-page">
 
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <!-- Snipcart container with dynamic API key -->
+    <div hidden id="snipcart" data-api-key=""></div>
+
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -26,7 +30,7 @@
                 <h2>Contact Information</h2>
                 <ul>
                     <li><strong>Email:</strong> <a href="mailto:support@mankave.store">support@mankave.store</a></li>
-                    <li><strong>Phone:</strong> ‪<a href="tel:+18136493341">(813) 649-3341‬</a></li>
+                    <li><strong>Phone:</strong> <a href="tel:+18136493341">(813) 649-3341</a></li>
                     <li><strong>Business Address:</strong><br>
                         1225 7th St S<br>
                         Safety Harbor, Florida 34695
@@ -36,9 +40,7 @@
         
             <div class="contact-form">
                 <h2>Send Us a Message</h2>
-                <p>
-                    Fill out the form below, and we’ll get back to you as soon as possible, typically within 1-2 business days.
-                </p>
+                <p>Fill out the form below, and we’ll get back to you as soon as possible, typically within 1-2 business days.</p>
                 <form action="/submit_contact" method="POST">
                     <div class="form-group">
                         <label for="name">Your Name:</label>
@@ -73,27 +75,75 @@
                 </ul>
             </div>
         </section>
-        
-        
     </main>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
+    <!-- Initialization Script -->
     <script>
-        // Load header and footer dynamically
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('header-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading header:', error));
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("DOM fully loaded and parsed.");
 
-        fetch('/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-            .catch(error => console.error('Error loading footer:', error));
+            // Snipcart Initialization
+            const snipcartDiv = document.getElementById("snipcart");
+            const apiKey = window.env?.SNIPCART_API_KEY || "";
+            if (apiKey) {
+                snipcartDiv.setAttribute("data-api-key", apiKey);
+                console.log("Snipcart API key applied:", apiKey);
+            } else {
+                console.error("Snipcart API key missing. Check env.js or fallback.");
+                return;
+            }
+
+            document.addEventListener("snipcart.ready", () => {
+                console.log("Snipcart is ready!");
+                initializeCartUI();
+            });
+
+            // Load Header and Footer
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initializeCartUI(); // Initialize cart UI in the header
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
+        });
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUI, 1000);
+            }
+        }
     </script>
-    <script src="../account.js"></script>
-    <script src="../script.js"></script>
 
-
-
+    <!-- Additional Scripts -->
+    <script defer src="../script.js"></script> <!-- Adjusted path -->
+    <script defer src="../account.js"></script> <!-- Adjusted path -->
 </body>
 </html>
