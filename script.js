@@ -23,6 +23,21 @@ function initializeThemeToggle() {
 // Wrap remaining logic in DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
     console.log("script.js initialized.");
+    const snipcartDiv = document.getElementById("snipcart");
+    const apiKey = window.env?.SNIPCART_API_KEY;
+
+    if (apiKey) {
+        snipcartDiv.setAttribute("data-api-key", apiKey);
+        console.log("Snipcart API key set.");
+    } else {
+        console.error("Snipcart API key missing.");
+        return;
+    }
+
+    document.addEventListener("snipcart.ready", () => {
+        console.log("Snipcart ready.");
+        initializeCartUI();
+    });
 
     // Handle Sign In Link
     const signInLink = document.getElementById("signInLink");
@@ -108,8 +123,8 @@ function initializeCartUI() {
         Snipcart.store.subscribe(updateCartUI);
         updateCartUI();
     } else {
-        console.warn("Snipcart is not ready. Retrying initialization...");
-        setTimeout(initializeCartUI, 1000); // Retry after 1 second
+        console.warn("Snipcart not ready. Retrying...");
+        setTimeout(initializeCartUI, 1000);
     }
 }
 
