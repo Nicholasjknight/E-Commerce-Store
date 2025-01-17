@@ -43,7 +43,7 @@
     <!-- Snipcart Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed.");
+            console.log("DOM fully loaded and parsed for Catalog.");
     
             const snipcartDiv = document.getElementById("snipcart");
             const apiKey = window.env?.SNIPCART_API_KEY || "YOUR_FALLBACK_API_KEY";
@@ -54,10 +54,10 @@
             }
             snipcartDiv.setAttribute("data-api-key", apiKey);
     
-            const initializeSnipcart = (retryCount = 0, maxRetries = 15) => {
+            const initializeSnipcartForCatalog = (retryCount = 0, maxRetries = 15) => {
                 if (window.Snipcart && window.Snipcart.store) {
-                    console.log("Snipcart initialized successfully!");
-                    initializeCartUI(); // Call cart UI setup
+                    console.log("Snipcart initialized successfully for Catalog!");
+                    initializeCartUIForCatalog(); // Use the renamed function for this page
                     return;
                 }
     
@@ -67,10 +67,10 @@
                 }
     
                 console.warn(`Snipcart not ready. Retrying... (${retryCount + 1}/${maxRetries})`);
-                setTimeout(() => initializeSnipcart(retryCount + 1, maxRetries), 1000);
+                setTimeout(() => initializeSnipcartForCatalog(retryCount + 1, maxRetries), 1000);
             };
     
-            initializeSnipcart();
+            initializeSnipcartForCatalog();
     
             // Load and render products
             const { loadProducts, renderProducts } = await import('/render_products.js');
@@ -110,8 +110,32 @@
                 .then(data => document.getElementById('footer-placeholder').innerHTML = data)
                 .catch(error => console.error('Error loading footer:', error));
         });
+    
+        // Renamed Function for Cart UI
+        function initializeCartUIForCatalog() {
+            const cartIcon = document.getElementById("cartIcon");
+            const cartCountElement = document.getElementById("cartCount");
+    
+            function updateCartUI() {
+                const cartState = Snipcart?.store?.getState()?.cart || {};
+                const itemCount = cartState.items?.count || 0;
+    
+                if (cartCountElement) cartCountElement.textContent = itemCount;
+                if (cartIcon) {
+                    cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
+                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                }
+            }
+    
+            if (typeof Snipcart !== "undefined" && Snipcart.store) {
+                Snipcart.store.subscribe(updateCartUI);
+                updateCartUI();
+            } else {
+                console.warn("Snipcart is not ready. Retrying initialization...");
+                setTimeout(initializeCartUIForCatalog, 1000); // Retry after 1 second
+            }
+        }
     </script>
-   
     
 
     <!-- Account and Additional Scripts -->
