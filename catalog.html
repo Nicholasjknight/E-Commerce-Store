@@ -43,21 +43,23 @@
     <!-- Snipcart Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed for Catalog.");
+            console.log("Catalog: DOM fully loaded.");
     
+            // Snipcart API Key Initialization
             const snipcartDiv = document.getElementById("snipcart");
             const apiKey = window.env?.SNIPCART_API_KEY || "YOUR_FALLBACK_API_KEY";
     
             if (!apiKey) {
-                console.error("Snipcart API key is missing. Check env.js or fallback key.");
+                console.error("Snipcart API key missing. Check env.js.");
                 return;
             }
             snipcartDiv.setAttribute("data-api-key", apiKey);
     
-            const initializeSnipcartForCatalog = (retryCount = 0, maxRetries = 15) => {
+            // Retry Snipcart Initialization
+            const initializeSnipcart = (retryCount = 0, maxRetries = 15) => {
                 if (window.Snipcart && window.Snipcart.store) {
-                    console.log("Snipcart initialized successfully for Catalog!");
-                    initializeCartUIForCatalog(); // Use the renamed function for this page
+                    console.log("Snipcart initialized successfully.");
+                    initializeCartUI(); // Call cart UI setup
                     return;
                 }
     
@@ -67,74 +69,52 @@
                 }
     
                 console.warn(`Snipcart not ready. Retrying... (${retryCount + 1}/${maxRetries})`);
-                setTimeout(() => initializeSnipcartForCatalog(retryCount + 1, maxRetries), 1000);
+                setTimeout(() => initializeSnipcart(retryCount + 1, maxRetries), 1000);
             };
     
-            initializeSnipcartForCatalog();
+            initializeSnipcart();
     
-            // Load and render products
-            const { loadProducts, renderProducts } = await import('/render_products.js');
-            const products = await loadProducts();
+            // Product Loading
+            try {
+                console.log("Loading products...");
+                const { loadProducts, renderProducts } = await import('./render_products.js');
+                const products = await loadProducts();
     
-            const renderAllProducts = () => {
+                // Render Products
                 renderProducts(products, 'catalog-container');
-            };
     
-            // Add sorting functionality
-            const filterSelect = document.getElementById("filterOptions");
-            filterSelect.addEventListener("change", () => {
-                const sortOption = filterSelect.value;
-                let sortedProducts = [...products];
+                // Add Sorting Functionality
+                const filterSelect = document.getElementById("filterOptions");
+                filterSelect.addEventListener("change", () => {
+                    const sortOption = filterSelect.value;
+                    let sortedProducts = [...products];
     
-                if (sortOption === 'az') {
-                    sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-                } else if (sortOption === 'lowPrice') {
-                    sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
-                } else if (sortOption === 'highPrice') {
-                    sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
-                }
+                    if (sortOption === 'az') {
+                        sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    } else if (sortOption === 'lowPrice') {
+                        sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
+                    } else if (sortOption === 'highPrice') {
+                        sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
+                    }
     
-                renderProducts(sortedProducts, 'catalog-container');
-            });
+                    renderProducts(sortedProducts, 'catalog-container');
+                });
     
-            renderAllProducts();
+            } catch (error) {
+                console.error("Error loading products:", error);
+            }
     
-            // Load header and footer dynamically
-            fetch('/header.html')
-                .then(response => response.text())
-                .then(data => document.getElementById('header-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading header:', error));
+            // Dynamic Header and Footer Loading
+            try {
+                const header = await fetch('/header.html').then((res) => res.text());
+                document.getElementById('header-placeholder').innerHTML = header;
     
-            fetch('/footer.html')
-                .then(response => response.text())
-                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading footer:', error));
+                const footer = await fetch('/footer.html').then((res) => res.text());
+                document.getElementById('footer-placeholder').innerHTML = footer;
+            } catch (error) {
+                console.error("Error loading header or footer:", error);
+            }
         });
-    
-        // Renamed Function for Cart UI
-        function initializeCartUIForCatalog() {
-            const cartIcon = document.getElementById("cartIcon");
-            const cartCountElement = document.getElementById("cartCount");
-    
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
-    
-                if (cartCountElement) cartCountElement.textContent = itemCount;
-                if (cartIcon) {
-                    cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
-                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
-                }
-            }
-    
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
-            } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUIForCatalog, 1000); // Retry after 1 second
-            }
-        }
     </script>
     
 
