@@ -12,7 +12,7 @@
 </head>
 <body>
     <!-- Snipcart container with dynamic API key -->
-    <div hidden id="snipcart" data-api-key=""></div>
+    <div hidden id="snipcart"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
@@ -73,30 +73,7 @@
                 .catch(error => console.error('Error loading footer:', error));
         });
 
-        // Function to Initialize and Update Cart UI
-        function initializeCartUI() {
-            const cartIcon = document.getElementById("cartIcon");
-            const cartCountElement = document.getElementById("cartCount");
 
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
-
-                if (cartCountElement) cartCountElement.textContent = itemCount;
-                if (cartIcon) {
-                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
-                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
-                }
-            }
-
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
-            } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUI, 1000); // Retry after 1 second
-            }
-        }
     </script>
 
     <!-- Additional Scripts -->
