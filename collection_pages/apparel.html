@@ -27,8 +27,8 @@
     <!-- Initialization Script -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed for Apparel Collection.");
-    
+            console.log("DOM fully loaded and parsed.");
+
             // Snipcart Initialization
             const snipcartDiv = document.getElementById("snipcart");
             const apiKey = window.env?.SNIPCART_API_KEY || "";
@@ -39,66 +39,65 @@
                 console.error("Snipcart API key missing. Check env.js or fallback.");
                 return;
             }
-    
+
             document.addEventListener("snipcart.ready", () => {
                 console.log("Snipcart is ready!");
-                initializeCartUIForCollection(); // Use the renamed function
+                initializeCartUI(); // Initialize cart UI
             });
-    
+
             // Load and Render Products for the Apparel Collection
-            const { loadProducts, renderProducts } = await import('../render_products.js');
+            const { loadProducts, renderProducts } = await import('../render_products.js'); // Adjusted path
             const products = await loadProducts();
-    
-            const category = 'Apparel';
+
+            const category = 'Apparel'; // Adjust the category dynamically if needed
             const filteredProducts = products.filter(product =>
                 product.category && product.category.includes(category)
             );
-    
+
             renderProducts(filteredProducts, 'catalog-container');
-    
+
             // Load Header and Footer
-            try {
-                const headerResponse = await fetch('../header.html');
-                const headerHtml = await headerResponse.text();
-                document.getElementById('header-placeholder').innerHTML = headerHtml;
-    
-                const footerResponse = await fetch('../footer.html');
-                const footerHtml = await footerResponse.text();
-                document.getElementById('footer-placeholder').innerHTML = footerHtml;
-    
-                initializeCartUIForCollection(); // Reinitialize cart updates after loading header
-            } catch (error) {
-                console.error('Error loading header or footer:', error);
-            }
+            fetch('../header.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+
+                    // Initialize cart updates in the header after loading
+                    initializeCartUI();
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            fetch('../footer.html') // Adjusted path
+                .then(response => response.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(error => console.error('Error loading footer:', error));
         });
-    
-        // Renamed Function for Cart UI
-        function initializeCartUIForCollection() {
+
+        // Function to Initialize and Update Cart UI
+        function initializeCartUI() {
             const cartIcon = document.getElementById("cartIcon");
             const cartCountElement = document.getElementById("cartCount");
-    
+
             function updateCartUI() {
                 const cartState = Snipcart?.store?.getState()?.cart || {};
                 const itemCount = cartState.items?.count || 0;
-    
+
                 if (cartCountElement) cartCountElement.textContent = itemCount;
                 if (cartIcon) {
                     cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
                     cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
                 }
             }
-    
+
             if (typeof Snipcart !== "undefined" && Snipcart.store) {
                 Snipcart.store.subscribe(updateCartUI);
                 updateCartUI();
             } else {
                 console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUIForCollection, 1000); // Retry after 1 second
+                setTimeout(initializeCartUI, 1000); // Retry after 1 second
             }
         }
     </script>
-    
-    
 
     <!-- Additional Scripts -->
     <script defer src="../script.js"></script> <!-- Adjusted path -->

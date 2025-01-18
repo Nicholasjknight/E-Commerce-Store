@@ -77,7 +77,7 @@
             // Product Loading
             try {
                 console.log("Loading products...");
-                const { loadProducts, renderProducts } = await import('./render_products.js');
+                const { loadProducts, renderProducts } = await import('/render_products.js');
                 const products = await loadProducts();
     
                 // Render Products
