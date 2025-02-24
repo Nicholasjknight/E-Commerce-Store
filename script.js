@@ -20,6 +20,14 @@ function initializeThemeToggle() {
     });
 }
 
+// Ensure Snipcart API key is applied **before Snipcart loads**
+document.addEventListener("DOMContentLoaded", () => {
+    const snipcartDiv = document.getElementById("snipcart");
+    if (!snipcartDiv.hasAttribute("data-api-key")) {
+        snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY || "YOUR_DEFAULT_API_KEY_HERE");
+    }
+});
+
 // Wrap remaining logic in DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
     console.log("script.js initialized.");
@@ -76,8 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
-
 // Sidebar Toggle with Safeguard
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -94,24 +100,35 @@ function initializeCartUI() {
     const cartCountElement = document.getElementById("cartCount");
 
     function updateCartUI() {
-        const cartState = Snipcart?.store?.getState()?.cart || {};
-        const itemCount = cartState.items?.count || 0;
+        if (window.Snipcart && window.Snipcart.store) {
+            const cartState = window.Snipcart.store.getState().cart || {};
+            const itemCount = cartState.items?.count || 0;
 
-        if (cartCountElement) cartCountElement.textContent = itemCount;
-        if (cartIcon) {
-            cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
-            cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+            if (cartCountElement) cartCountElement.textContent = itemCount;
+            if (cartIcon) {
+                cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
+                cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+            }
         }
     }
 
-    if (typeof Snipcart !== "undefined" && Snipcart.store) {
-        Snipcart.store.subscribe(updateCartUI);
+    if (window.Snipcart && window.Snipcart.store) {
+        window.Snipcart.store.subscribe(updateCartUI);
         updateCartUI();
-    } else {
-        console.warn("Snipcart is not ready. Retrying initialization...");
-        setTimeout(initializeCartUI, 1000); // Retry after 1 second
     }
 }
+
+// Ensure Snipcart updates the cart count correctly
+document.addEventListener("snipcart.ready", () => {
+    console.log("Snipcart is fully initialized!");
+    initializeCartUI();
+
+    window.Snipcart.events.on("cart.confirmed", initializeCartUI);
+    window.Snipcart.events.on("cart.closed", initializeCartUI);
+    window.Snipcart.events.on("item.added", initializeCartUI);
+    window.Snipcart.events.on("item.updated", initializeCartUI);
+    window.Snipcart.events.on("item.removed", initializeCartUI);
+});
 
 function loadPurchasedOrCartItems() {
     const purchasedSection = document.querySelector('#customer-interest .product-grid');
@@ -161,6 +178,7 @@ function renderNoProductHistory(container) {
         </div>
     `;
 }
+
 function renderProducts(productList, container) {
     if (!container) {
         console.warn("Container for rendering products is not defined.");
@@ -200,31 +218,8 @@ function renderProducts(productList, container) {
 }
 
 // Safely Initialize Scripts
-function initializeSnipcartScripts() {
+document.addEventListener("snipcart.ready", () => {
     console.log("Snipcart is ready. Initializing UI updates and product history.");
     initializeCartUI();
     loadPurchasedOrCartItems();
-}
-
-document.addEventListener("snipcart.ready", initializeSnipcartScripts);
-
-function scrollCarousel(sectionId, direction) {
-    const section = document.getElementById(sectionId);
-    if (!section) {
-        console.error(`Section with ID '${sectionId}' not found.`);
-        return;
-    }
-
-    const carousel = section.querySelector(".product-grid");
-    if (!carousel) {
-        console.error(`Carousel (.product-grid) not found inside section ID '${sectionId}'.`);
-        return;
-    }
-
-    const scrollAmount = 300; // Adjust this based on card width
-    if (direction === "left") {
-        carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    } else if (direction === "right") {
-        carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-}
+});
