@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalog</title>
-    
+
     <!-- Styles and Favicon -->
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
 
-    <!-- Environment Variables (Ensures API Key is Available) -->
+    <!-- Load Environment Variables First -->
     <script src="/env.js"></script>
 
-    <!-- Snipcart Styles and Script -->
+    <!-- Snipcart Styles -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+
+    <!-- Snipcart API Key Configuration (Ensures It's Set Before Snipcart Loads) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const snipcartDiv = document.getElementById("snipcart");
@@ -23,6 +25,8 @@
             }
         });
     </script>
+
+    <!-- Load Snipcart AFTER Setting API Key -->
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 
     <!-- Essential Scripts -->
@@ -32,7 +36,7 @@
 
 <body>
     <!-- Snipcart API Key Configuration -->
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <div hidden id="snipcart"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
@@ -54,9 +58,12 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Snipcart Initialization -->
+    <!-- Merged Initialization Logic -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("Catalog page scripts initializing...");
+
+            // Ensure Snipcart is Ready Before Updating Cart UI
             const checkSnipcartReady = setInterval(() => {
                 if (window.Snipcart && window.Snipcart.store) {
                     console.log("Snipcart is ready!");
@@ -66,39 +73,39 @@
                     clearInterval(checkSnipcartReady);
                 }
             }, 500);
-        });
-    </script>
 
-    <!-- Load Products & Sorting -->
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const { loadProducts, renderProducts } = await import('/render_products.js');
-            const products = await loadProducts();
+            // Load Products & Sorting
+            try {
+                const { loadProducts, renderProducts } = await import('/render_products.js');
+                const products = await loadProducts();
 
-            const renderAllProducts = () => {
-                renderProducts(products, 'catalog-container');
-            };
+                const renderAllProducts = () => {
+                    renderProducts(products, 'catalog-container');
+                };
 
-            // Add filter functionality
-            const filterSelect = document.getElementById('filterOptions');
-            filterSelect.addEventListener('change', () => {
-                const sortOption = filterSelect.value;
-                let sortedProducts = [...products];
+                // Add filter functionality
+                const filterSelect = document.getElementById('filterOptions');
+                filterSelect.addEventListener('change', () => {
+                    const sortOption = filterSelect.value;
+                    let sortedProducts = [...products];
 
-                if (sortOption === 'az') {
-                    sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-                } else if (sortOption === 'lowPrice') {
-                    sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
-                } else if (sortOption === 'highPrice') {
-                    sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
-                }
+                    if (sortOption === 'az') {
+                        sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    } else if (sortOption === 'lowPrice') {
+                        sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
+                    } else if (sortOption === 'highPrice') {
+                        sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
+                    }
 
-                renderProducts(sortedProducts, 'catalog-container');
-            });
+                    renderProducts(sortedProducts, 'catalog-container');
+                });
 
-            renderAllProducts();
+                renderAllProducts();
+            } catch (error) {
+                console.error("Error loading product data:", error);
+            }
 
-            // Load header and footer
+            // Load Header and Footer
             fetch('/header.html')
                 .then(response => response.text())
                 .then(data => document.getElementById('header-placeholder').innerHTML = data)
@@ -116,4 +123,5 @@
     <script src="/search.js"></script>
 
 </body>
+
 </html>
