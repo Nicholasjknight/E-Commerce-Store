@@ -6,11 +6,11 @@
     <title>Apparel Collection</title>
     
     <!-- CSS and favicon -->
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
 
     <!-- Environment variables -->
-    <script src="../env.js"></script>
+    <script src="/env.js"></script>
 
     <!-- Snipcart styles and dynamic API setup -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
@@ -26,9 +26,9 @@
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 
     <!-- Additional Scripts -->
-    <script defer src="../script.js"></script>
-    <script defer src="../account.js"></script>
-    <script src="../search.js"></script>
+    <script defer src="/script.js"></script>
+    <script defer src="/account.js"></script>
+    <script src="/search.js"></script>
 </head>
 <body>
     <!-- Snipcart container explicitly configured -->
@@ -62,7 +62,7 @@
     <!-- Load and Render Apparel Products -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            const { loadProducts, renderProducts } = await import('../render_products.js');
+            const { loadProducts, renderProducts } = await import('/render_products.js');
             const products = await loadProducts();
 
             const filteredProducts = products.filter(product =>
@@ -72,7 +72,7 @@
             renderProducts(filteredProducts, 'catalog-container');
 
             // Load Header and initialize cart after loading
-            fetch('../header.html')
+            fetch('/header.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-placeholder').innerHTML = data;
@@ -83,7 +83,7 @@
                 .catch(error => console.error('Error loading header:', error));
 
             // Load Footer
-            fetch('../footer.html')
+            fetch('/footer.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('footer-placeholder').innerHTML = data;
@@ -93,6 +93,6 @@
     </script>
 
     <!-- JSON-LD and other scripts -->
-    <script type="module" src="../JSON-LD_breadcrumbs.js"></script>
+    <script type="module" src="/JSON-LD_breadcrumbs.js"></script>
 </body>
 </html>

@@ -3,16 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sports & Games</title>
-    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
-    <script src="../env.js"></script> <!-- Adjusted path -->
+    <title>Sports & Games Collection</title>
+
+    <!-- CSS and favicon -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+
+    <!-- Environment variables -->
+    <script src="/env.js"></script>
+
+    <!-- Snipcart styles and dynamic API setup -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const snipcartDiv = document.getElementById("snipcart");
+            if (!snipcartDiv.hasAttribute("data-api-key")) {
+                snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY || "YOUR_DEFAULT_API_KEY_HERE");
+                console.log("Snipcart API key set:", window.env?.SNIPCART_API_KEY);
+            }
+        });
+    </script>
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+
+    <!-- Additional Scripts -->
+    <script defer src="/script.js"></script>
+    <script defer src="/account.js"></script>
+    <script src="/search.js"></script>
 </head>
 <body>
-    <!-- Snipcart container with dynamic API key -->
-    <div hidden id="snipcart" data-api-key=""></div>
+    <!-- Snipcart container explicitly configured -->
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
@@ -24,83 +44,56 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Initialization Script -->
+    <!-- Snipcart reliable initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkSnipcartReady = setInterval(() => {
+                if (window.Snipcart && window.Snipcart.store) {
+                    console.log("Snipcart is ready!");
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    }
+                    clearInterval(checkSnipcartReady);
+                }
+            }, 500);
+        });
+    </script>
+
+    <!-- Load and Render Sports & Games Products -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed.");
-
-            // Snipcart Initialization
-            const snipcartDiv = document.getElementById("snipcart");
-            const apiKey = window.env?.SNIPCART_API_KEY || "";
-            if (apiKey) {
-                snipcartDiv.setAttribute("data-api-key", apiKey);
-                console.log("Snipcart API key applied:", apiKey);
-            } else {
-                console.error("Snipcart API key missing. Check env.js or fallback.");
-                return;
-            }
-
-            document.addEventListener("snipcart.ready", () => {
-                console.log("Snipcart is ready!");
-                initializeCartUI();
-            });
-
-            // Load and Render Products for the Sports & Games Collection
-            const { loadProducts, renderProducts } = await import('../render_products.js'); // Adjusted path
+            const { loadProducts, renderProducts } = await import('/render_products.js');
             const products = await loadProducts();
 
-            const categories = ['Sports', 'Games', 'Outdoor Games']; // Filter categories
+            const categories = ['Sports', 'Games', 'Outdoor Games'];
             const filteredProducts = products.filter(product =>
                 product.category && categories.some(category => product.category.includes(category))
             );
 
             renderProducts(filteredProducts, 'catalog-container');
 
-            // Load Header and Footer
-            fetch('../header.html') // Adjusted path
+            // Load Header and initialize cart after loading
+            fetch('/header.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-placeholder').innerHTML = data;
-                    initializeCartUI(); // Initialize cart UI in the header
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    }
                 })
                 .catch(error => console.error('Error loading header:', error));
 
-            fetch('../footer.html') // Adjusted path
+            // Load Footer
+            fetch('/footer.html')
                 .then(response => response.text())
-                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                })
                 .catch(error => console.error('Error loading footer:', error));
         });
-
-        // Function to Initialize and Update Cart UI
-        function initializeCartUI() {
-            const cartIcon = document.getElementById("cartIcon");
-            const cartCountElement = document.getElementById("cartCount");
-
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
-
-                if (cartCountElement) cartCountElement.textContent = itemCount;
-                if (cartIcon) {
-                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
-                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
-                }
-            }
-
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
-            } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUI, 1000);
-            }
-        }
     </script>
 
-    <!-- Additional Scripts -->
-    <script defer src="../script.js"></script> <!-- Adjusted path -->
-    <script defer src="../account.js"></script> <!-- Adjusted path -->
-    <script src="../search.js"></script>
-
+    <!-- JSON-LD and other scripts -->
+    <script type="module" src="/JSON-LD_breadcrumbs.js"></script>
 </body>
 </html>

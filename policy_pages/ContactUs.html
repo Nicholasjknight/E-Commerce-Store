@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Contact Man Kave for assistance with products, orders, or inquiries.">
     <title>Contact Us - Man Kave</title>
-    <link rel="stylesheet" href="../style.css"> <!-- Adjusted path -->
-    <link rel="icon" href="../images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
-    <script src="../env.js"></script> <!-- Adjusted path -->
+    <link rel="stylesheet" href="/style.css"> <!-- Adjusted path -->
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
+    <script src="/env.js"></script> <!-- Adjusted path -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 </head>
@@ -102,7 +102,7 @@
             });
 
             // Load Header and Footer
-            fetch('../header.html') // Adjusted path
+            fetch('/header.html') // Adjusted path
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-placeholder').innerHTML = data;
@@ -110,7 +110,7 @@
                 })
                 .catch(error => console.error('Error loading header:', error));
 
-            fetch('../footer.html') // Adjusted path
+            fetch('/footer.html') // Adjusted path
                 .then(response => response.text())
                 .then(data => document.getElementById('footer-placeholder').innerHTML = data)
                 .catch(error => console.error('Error loading footer:', error));
@@ -127,7 +127,7 @@
 
                 if (cartCountElement) cartCountElement.textContent = itemCount;
                 if (cartIcon) {
-                    cartIcon.src = itemCount > 0 ? "../images/fullcart.png" : "../images/emptycart.png";
+                    cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
                     cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
                 }
             }
@@ -143,7 +143,7 @@
     </script>
 
     <!-- Additional Scripts -->
-    <script defer src="../script.js"></script> <!-- Adjusted path -->
-    <script defer src="../account.js"></script> <!-- Adjusted path -->
+    <script defer src="/script.js"></script> <!-- Adjusted path -->
+    <script defer src="/account.js"></script> <!-- Adjusted path -->
 </body>
 </html>
