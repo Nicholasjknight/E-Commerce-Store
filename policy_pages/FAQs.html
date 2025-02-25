@@ -5,27 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Frequently Asked Questions for Man Kave. Find answers to common inquiries about ordering, shipping, returns, and more.">
     <title>FAQs - Man Kave</title>
-    <link rel="stylesheet" href="/style.css"> <!-- Adjusted path -->
-    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
-    <script src="/env.js"></script> <!-- Adjusted path -->
+
+    <!-- CSS and favicon -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+
+    <!-- Environment variables -->
+    <script src="/env.js"></script>
+
+    <!-- Snipcart styles and dynamic API setup -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+
+    <!-- Additional Scripts -->
+    <script defer src="/script.js"></script>
+    <script defer src="/account.js"></script>
+    <script src="/search.js"></script>
 </head>
 <body class="policy-page">
 
-    <!-- Snipcart container with dynamic API key -->
-    <div hidden id="snipcart" data-api-key=""></div>
+    <!-- Snipcart container with hardcoded API key -->
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
+    <!-- Main Content -->
     <main>
         <section class="faqs">
             <h1>Frequently Asked Questions (FAQs)</h1>
             <p>
                 At Man Kave, we strive to make your shopping experience as seamless as possible. Below are answers to some of the most common questions our customers have. If you don’t see your question here, feel free to contact us!
             </p>
-        
+
             <h2>Ordering</h2>
             <ul>
                 <li><strong>How do I place an order?</strong>
@@ -35,7 +47,7 @@
                     <p>Orders can be modified or canceled within 24 hours of placing them. Please contact us at <a href="mailto:support@mankave.store">support@mankave.store</a> or call <a href="tel:+18136493341">(813) 649-3341</a> as soon as possible.</p>
                 </li>
             </ul>
-        
+
             <h2>Shipping</h2>
             <ul>
                 <li><strong>Where do you ship to?</strong>
@@ -48,7 +60,7 @@
                     <p>Once your order ships, you’ll receive a tracking number via email. You can also track your order using the "Track Order" link on our website.</p>
                 </li>
             </ul>
-        
+
             <h2>Returns and Refunds</h2>
             <ul>
                 <li><strong>What is your return policy?</strong>
@@ -58,7 +70,7 @@
                     <p>To initiate a return, please contact our support team at <a href="mailto:support@mankave.store">support@mankave.store</a>. Once approved, we’ll provide instructions on how to proceed.</p>
                 </li>
             </ul>
-        
+
             <h2>Payments</h2>
             <ul>
                 <li><strong>What payment methods do you accept?</strong>
@@ -68,7 +80,7 @@
                     <p>Yes, we use industry-standard encryption to ensure your payment details are safe and secure.</p>
                 </li>
             </ul>
-        
+
             <h2>Products</h2>
             <ul>
                 <li><strong>Are your products original and authentic?</strong>
@@ -78,7 +90,7 @@
                     <p>If a product is out of stock, we recommend checking back later or contacting our support team for updates.</p>
                 </li>
             </ul>
-        
+
             <h2>Support</h2>
             <ul>
                 <li><strong>How can I contact customer support?</strong>
@@ -88,96 +100,66 @@
                     <p>Our team is available Monday through Friday from 9:00 AM to 5:00 PM EST.</p>
                 </li>
             </ul>
-        
-            <h2>Other Questions</h2>
-            <ul>
-                <li><strong>Do you offer bulk discounts?</strong>
-                    <p>Yes, bulk discounts may be available for larger orders. Please contact us for more details.</p>
-                </li>
-                <li><strong>Do you offer gift wrapping?</strong>
-                    <p>We currently do not offer gift wrapping services but are exploring this option for the future.</p>
-                </li>
-            </ul>
-        
-            <h2>Still Have Questions?</h2>
-            <p>
-                If you have any questions that aren’t answered here, don’t hesitate to reach out. We’re here to help!
-            </p>
-            <ul>
-                <li>Email: <a href="mailto:support@mankave.store">support@mankave.store</a></li>
-                <li>Phone: <a href="tel:+18136493341">(813) 649-3341</a></li>
-                <li>Contact Form: <a href="/policy_pages/contactus.html">Submit a Question</a></li>
-            </ul>
         </section>
     </main>
 
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Initialization Script -->
+    <!-- Load Header and Footer -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             console.log("DOM fully loaded and parsed.");
 
-            // Snipcart Initialization
-            const snipcartDiv = document.getElementById("snipcart");
-            const apiKey = window.env?.SNIPCART_API_KEY || "";
-            if (apiKey) {
-                snipcartDiv.setAttribute("data-api-key", apiKey);
-                console.log("Snipcart API key applied:", apiKey);
-            } else {
-                console.error("Snipcart API key missing. Check env.js or fallback.");
-                return;
-            }
-
-            document.addEventListener("snipcart.ready", () => {
-                console.log("Snipcart is ready!");
-                initializeCartUI();
-            });
-
-            // Load Header and Footer
-            fetch('/header.html') // Adjusted path
+            // Load Header and initialize cart after loading
+            fetch('/header.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-placeholder').innerHTML = data;
-                    initializeCartUI(); // Initialize cart UI in the header
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    }
                 })
                 .catch(error => console.error('Error loading header:', error));
 
-            fetch('/footer.html') // Adjusted path
+            // Load Footer
+            fetch('/footer.html')
                 .then(response => response.text())
-                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                })
                 .catch(error => console.error('Error loading footer:', error));
         });
+    </script>
 
-        // Function to Initialize and Update Cart UI
-        function initializeCartUI() {
-            const cartIcon = document.getElementById("cartIcon");
-            const cartCountElement = document.getElementById("cartCount");
+    <!-- Snipcart Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkSnipcartReady = setInterval(() => {
+                if (window.Snipcart && window.Snipcart.store) {
+                    console.log("✅ Snipcart is fully loaded!");
 
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
+                    // Initialize Cart UI
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    } else {
+                        console.warn("⚠️ initializeCartUI function is missing!");
+                    }
 
-                if (cartCountElement) cartCountElement.textContent = itemCount;
-                if (cartIcon) {
-                    cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
-                    cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
+                    // Force Snipcart UI refresh
+                    Snipcart.store.subscribe(() => {
+                        console.log("🔄 Cart updated!");
+                        updateCartUI();
+                    });
+
+                    clearInterval(checkSnipcartReady);
                 }
-            }
-
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
-            } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUI, 1000);
-            }
-        }
+            }, 500);
+        });
     </script>
 
     <!-- Additional Scripts -->
-    <script defer src="/script.js"></script> <!-- Adjusted path -->
-    <script defer src="/account.js"></script> <!-- Adjusted path -->
+    <script defer src="/script.js"></script>
+    <script defer src="/account.js"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@
 <body class="policy-page">
 
     <!-- Snipcart container with dynamic API key -->
-    <div hidden id="snipcart" data-api-key=""></div>
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
@@ -95,66 +95,83 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Initialization Script -->
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed.");
-
-            // Snipcart Initialization
-            const snipcartDiv = document.getElementById("snipcart");
-            const apiKey = window.env?.SNIPCART_API_KEY || "";
-            if (apiKey) {
-                snipcartDiv.setAttribute("data-api-key", apiKey);
-                console.log("Snipcart API key applied:", apiKey);
-            } else {
-                console.error("Snipcart API key missing. Check env.js or fallback.");
-                return;
-            }
-
-            document.addEventListener("snipcart.ready", () => {
-                console.log("Snipcart is ready!");
-                initializeCartUI();
-            });
-
-            // Load Header and Footer
-            fetch('/header.html') // Adjusted path
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-placeholder').innerHTML = data;
-                    initializeCartUI(); // Initialize cart UI in the header
-                })
-                .catch(error => console.error('Error loading header:', error));
-
-            fetch('/footer.html') // Adjusted path
-                .then(response => response.text())
-                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading footer:', error));
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkSnipcartReady = setInterval(() => {
+                if (window.Snipcart && window.Snipcart.store) {
+                    console.log("✅ Snipcart is fully loaded!");
+    
+                    // Initialize Cart UI
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    } else {
+                        console.warn("⚠️ initializeCartUI function is missing!");
+                    }
+    
+                    // Force Snipcart UI refresh
+                    Snipcart.store.subscribe(() => {
+                        console.log("🔄 Cart updated!");
+                        updateCartUI();
+                    });
+    
+                    clearInterval(checkSnipcartReady);
+                }
+            }, 500);
         });
-
-        // Function to Initialize and Update Cart UI
-        function initializeCartUI() {
-            const cartIcon = document.getElementById("cartIcon");
+    
+        // Function to Ensure Cart UI Updates Properly
+        function updateCartUI() {
             const cartCountElement = document.getElementById("cartCount");
-
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
-
+            const cartIcon = document.getElementById("cartIcon");
+    
+            if (window.Snipcart && Snipcart.store) {
+                const cartState = Snipcart.store.getState().cart;
+                const itemCount = cartState.items.count || 0;
+    
                 if (cartCountElement) cartCountElement.textContent = itemCount;
                 if (cartIcon) {
                     cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
                     cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
                 }
-            }
-
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
+                console.log(`🛒 Cart updated: ${itemCount} items`);
             } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUI, 1000);
+                console.warn("⚠️ Snipcart is not ready for cart updates yet.");
             }
         }
+    </script>
+    
+
+    <!-- Load Header and Footer -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const { loadProducts, renderProducts } = await import('/render_products.js');
+            const products = await loadProducts();
+
+            const filteredProducts = products.filter(product =>
+                product.category && product.category.includes('Apparel')
+            );
+
+            renderProducts(filteredProducts, 'catalog-container');
+
+            // Load Header and initialize cart after loading
+            fetch('/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    }
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            // Load Footer
+            fetch('/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        });
     </script>
 
     <!-- Additional Scripts -->

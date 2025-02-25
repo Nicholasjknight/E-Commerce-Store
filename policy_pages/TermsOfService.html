@@ -3,22 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Terms of Service for Man Kave, outlining the rules and conditions for using our website and services.">
-    <title>Terms of Service - Man Kave</title>
-    <link rel="stylesheet" href="/style.css"> <!-- Adjusted path -->
-    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon"> <!-- Adjusted path -->
-    <script src="/env.js"></script> <!-- Adjusted path -->
+    <meta name="description" content="About Us page for Man Kave, highlighting our mission, story, and customer-first approach.">
+    <title>Terms of Service - ManCaves.Store</title>
+
+    <!-- CSS and favicon -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
+
+    <!-- Environment variables -->
+    <script src="/env.js"></script>
+
+    <!-- Snipcart styles and dynamic API setup -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const snipcartDiv = document.getElementById("snipcart");
+    
+            // Wait until env.js has loaded
+            const waitForEnv = setInterval(() => {
+                if (window.env?.SNIPCART_API_KEY) {
+                    snipcartDiv.setAttribute("data-api-key", window.env.SNIPCART_API_KEY);
+                    console.log("✅ Snipcart API key set:", window.env.SNIPCART_API_KEY);
+                    clearInterval(waitForEnv);
+                }
+            }, 200);
+        });
+    </script>
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    
+
+    <!-- Additional Scripts -->
+    <script defer src="/script.js"></script>
+    <script defer src="/account.js"></script>
+    <script src="/search.js"></script>
 </head>
 <body class="policy-page">
 
-    <!-- Snipcart container with dynamic API key -->
-    <div hidden id="snipcart" data-api-key=""></div>
+    <!-- Snipcart container explicitly configured -->
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
+    <!-- Main Content -->
     <main>
         <section class="terms-of-service">
             <h1>Terms of Service</h1>
@@ -27,69 +54,57 @@
             </p>
 
             <h2>1. General Information</h2>
-            <p>
-                - **Company Name**: Man Kave  
-                - **Business Address**: 1225 7th St S, Safety Harbor, Florida 34695  
-                - **Contact Email**: <a href="mailto:support@mankave.store">support@mankave.store</a>  
-                - **Contact Phone**: <a href="tel:+18136493341">‪(813) 649-3341‬</a>  
-            </p>
+            <ul>
+                <li><strong>Company Name:</strong> Man Kave</li>
+                <li><strong>Business Address:</strong> 1225 7th St S, Safety Harbor, Florida 34695</li>
+                <li><strong>Contact Email:</strong> <a href="mailto:support@mankave.store">support@mankave.store</a></li>
+                <li><strong>Contact Phone:</strong> <a href="tel:+18136493341">‪(813) 649-3341‬</a></li>
+            </ul>
 
             <h2>2. Use of the Website</h2>
-            <p>
-                By using this website, you agree to:
-            </p>
             <ul>
-                <li>Be at least 18 years old or have the consent of a parent or guardian.</li>
-                <li>Use the website for lawful purposes only and refrain from engaging in any fraudulent or harmful activities.</li>
-                <li>Provide accurate and complete information when creating an account or making a purchase.</li>
+                <li>You must be at least 18 years old or have the consent of a parent or guardian.</li>
+                <li>You agree to use the website for lawful purposes only.</li>
+                <li>You must provide accurate and complete information when making a purchase.</li>
             </ul>
 
             <h2>3. Products and Services</h2>
             <p>
-                - We strive to display product information, pricing, and availability as accurately as possible. However, errors may occur, and we reserve the right to correct inaccuracies or cancel orders without prior notice.  
-                - All product prices are listed in USD.  
-                - Products are subject to availability and may vary based on stock levels.  
+                We strive to provide accurate product descriptions and pricing but reserve the right to correct errors and cancel orders if necessary.
             </p>
 
             <h2>4. Orders and Payment</h2>
             <p>
-                - All orders placed through Snipcart are subject to acceptance and confirmation.  
-                - Payment is processed securely via Snipcart. Accepted payment methods include major credit cards and other options displayed at checkout.  
-                - Man Kave reserves the right to refuse or cancel any order at our discretion.  
+                - Orders are processed securely via Snipcart.<br>
+                - Man Kave reserves the right to refuse or cancel any order at our discretion.
             </p>
 
             <h2>5. Shipping and Returns</h2>
             <p>
-                - Please review our <a href="/policy_pages/shippingpolicy.html">Shipping Policy</a> and <a href="/policy_pages/returnandrefundpolicy.html">Returns and Refund Policy</a> for detailed information.  
-                - International customers are responsible for customs duties, taxes, or additional fees that may apply.
+                - Review our <a href="/policy_pages/shippingpolicy.html">Shipping Policy</a> and <a href="/policy_pages/returnandrefundpolicy.html">Returns and Refund Policy</a> for full details.
             </p>
 
             <h2>6. Intellectual Property</h2>
             <p>
-                - All content on this website, including but not limited to text, images, logos, and graphics, is the property of Man Kave and is protected by intellectual property laws.  
-                - You may not reproduce, distribute, or use any content from this website without express written consent from Man Kave.  
+                All website content is the property of Man Kave and cannot be copied or used without permission.
             </p>
 
             <h2>7. Limitation of Liability</h2>
             <p>
-                - Man Kave is not responsible for any indirect, incidental, or consequential damages resulting from your use of this website or purchase of our products.  
-                - Our liability is limited to the purchase price of the products or services in question.  
+                Man Kave is not responsible for any indirect, incidental, or consequential damages resulting from the use of our website or products.
             </p>
 
             <h2>8. Changes to Terms</h2>
             <p>
-                We reserve the right to update or modify these terms at any time without prior notice. Changes will be effective immediately upon posting on this page. Continued use of the website indicates your acceptance of the revised terms.
+                We may update these terms at any time. Continued use of the site constitutes acceptance of the updated terms.
             </p>
 
             <h2>9. Governing Law</h2>
             <p>
-                These terms are governed by the laws of the State of Florida, USA. Any disputes arising from the use of this website will be subject to the jurisdiction of the courts in Pinellas County, Florida.
+                These terms are governed by the laws of the State of Florida, USA.
             </p>
 
             <h2>10. Contact Us</h2>
-            <p>
-                If you have any questions about these Terms of Service, please contact us:  
-            </p>
             <ul>
                 <li>Email: <a href="mailto:support@mankave.store">support@mankave.store</a></li>
                 <li>Phone: <a href="tel:+18136493341">‪(813) 649-3341‬</a></li>
@@ -97,73 +112,91 @@
         </section>
     </main>
 
+
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Initialization Script -->
+    <!-- Snipcart reliable initialization -->
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            console.log("DOM fully loaded and parsed.");
-
-            // Snipcart Initialization
-            const snipcartDiv = document.getElementById("snipcart");
-            const apiKey = window.env?.SNIPCART_API_KEY || "";
-            if (apiKey) {
-                snipcartDiv.setAttribute("data-api-key", apiKey);
-                console.log("Snipcart API key applied:", apiKey);
-            } else {
-                console.error("Snipcart API key missing. Check env.js or fallback.");
-                return;
-            }
-
-            document.addEventListener("snipcart.ready", () => {
-                console.log("Snipcart is ready!");
-                initializeCartUI();
-            });
-
-            // Load Header and Footer
-            fetch('/header.html') // Adjusted path
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-placeholder').innerHTML = data;
-                    initializeCartUI(); // Initialize cart UI in the header
-                })
-                .catch(error => console.error('Error loading header:', error));
-
-            fetch('/footer.html') // Adjusted path
-                .then(response => response.text())
-                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading footer:', error));
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkSnipcartReady = setInterval(() => {
+                if (window.Snipcart && window.Snipcart.store) {
+                    console.log("✅ Snipcart is fully loaded!");
+    
+                    // Initialize Cart UI
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    } else {
+                        console.warn("⚠️ initializeCartUI function is missing!");
+                    }
+    
+                    // Force Snipcart UI refresh
+                    Snipcart.store.subscribe(() => {
+                        console.log("🔄 Cart updated!");
+                        updateCartUI();
+                    });
+    
+                    clearInterval(checkSnipcartReady);
+                }
+            }, 500);
         });
-
-        // Function to Initialize and Update Cart UI
-        function initializeCartUI() {
-            const cartIcon = document.getElementById("cartIcon");
+    
+        // Function to Ensure Cart UI Updates Properly
+        function updateCartUI() {
             const cartCountElement = document.getElementById("cartCount");
-
-            function updateCartUI() {
-                const cartState = Snipcart?.store?.getState()?.cart || {};
-                const itemCount = cartState.items?.count || 0;
-
+            const cartIcon = document.getElementById("cartIcon");
+    
+            if (window.Snipcart && Snipcart.store) {
+                const cartState = Snipcart.store.getState().cart;
+                const itemCount = cartState.items.count || 0;
+    
                 if (cartCountElement) cartCountElement.textContent = itemCount;
                 if (cartIcon) {
                     cartIcon.src = itemCount > 0 ? "/images/fullcart.png" : "/images/emptycart.png";
                     cartIcon.alt = itemCount > 0 ? "Full Cart" : "Empty Cart";
                 }
-            }
-
-            if (typeof Snipcart !== "undefined" && Snipcart.store) {
-                Snipcart.store.subscribe(updateCartUI);
-                updateCartUI();
+                console.log(`🛒 Cart updated: ${itemCount} items`);
             } else {
-                console.warn("Snipcart is not ready. Retrying initialization...");
-                setTimeout(initializeCartUI, 1000);
+                console.warn("⚠️ Snipcart is not ready for cart updates yet.");
             }
         }
     </script>
+    
 
-    <!-- Additional Scripts -->
-    <script defer src="/script.js"></script> <!-- Adjusted path -->
-    <script defer src="/account.js"></script> <!-- Adjusted path -->
+    <!-- Load Header and Footer -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const { loadProducts, renderProducts } = await import('/render_products.js');
+            const products = await loadProducts();
+
+            const filteredProducts = products.filter(product =>
+                product.category && product.category.includes('Apparel')
+            );
+
+            renderProducts(filteredProducts, 'catalog-container');
+
+            // Load Header and initialize cart after loading
+            fetch('/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    if (typeof initializeCartUI === "function") {
+                        initializeCartUI();
+                    }
+                })
+                .catch(error => console.error('Error loading header:', error));
+
+            // Load Footer
+            fetch('/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        });
+    </script>
+    <!-- JSON-LD and other scripts -->
+    <script type="module" src="/JSON-LD_breadcrumbs.js"></script>
+
 </body>
 </html>

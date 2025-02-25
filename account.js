@@ -25,6 +25,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             initializeFirebase(); // ✅ Call Firebase init after header is ready
         }
     }, 100);
+
+    // Wait for the footer to load before initializing cart UI
+const footerPlaceholder = document.getElementById("footer-placeholder");
+const footerObserver = new MutationObserver(() => {
+    if (footerPlaceholder && footerPlaceholder.children.length > 0) {
+        console.log("Footer detected. Initializing cart UI...");
+        if (typeof initializeCartUI === "function") {
+            initializeCartUI();
+        }
+        footerObserver.disconnect();
+    }
+});
+footerObserver.observe(footerPlaceholder, { childList: true });
+
 });
 
 // Firebase initialization function
