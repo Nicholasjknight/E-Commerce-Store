@@ -1,21 +1,19 @@
-
 <!-- FOOTER START -->
 <footer class="footer">
     <!-- Top section with link groups -->
     <div class="footer-top">
         <div class="footer-links">
-                <!-- About Man Kave Section -->
-                <div class="footer-column1">
-                    <h4>Man Caves Store</h4>
-                    <ul>
-                        <li><p>1225 7th St S, Safety Harbor, <br><br> FL 34695, United States</p></li>
-                        <li><p>Mon-Fri, 9:00 AM - 5:00 PM EST</p></li>
-                        <li><p>Contact: <a href="tel:+18136493341">+1 ‪(813) 649-3341‬
-                        </a></p></li>
-                        <li><p>Email: <a href="mailto:support@mancaves.store">support@mancaves.store</a></p></li>
-    
-                    </ul>
-                </div>
+            <!-- About Man Kave Section -->
+            <div class="footer-column1">
+                <h4>Man Caves Store</h4>
+                <ul>
+                    <li><p>1225 7th St S, Safety Harbor, <br><br> FL 34695, United States</p></li>
+                    <li><p>Mon-Fri, 9:00 AM - 5:00 PM EST</p></li>
+                    <li><p>Contact: <a href="tel:+18136493341">+1 ‪(813) 649-3341‬</a></p></li>
+                    <li><p>Email: <a href="mailto:support@mancaves.store">support@mancaves.store</a></p></li>
+                </ul>
+            </div>
+
             <!-- About Man Kave Section -->
             <div class="footer-column">
                 <h4>About Man Kave</h4>
@@ -24,12 +22,9 @@
                     <li><a href="/policy_pages/ContactUs.html">Contact Us</a></li>
                     <li><a href="/policy_pages/AccessibilityStatement.html">Accessibility</a></li>
                     <li><a href="/advertise.html">Marketing Opportunities</a></li>
-
                 </ul>
             </div>
-   
 
-    
             <!-- Customer Support Section -->
             <div class="footer-column">
                 <h4>Customer Support</h4>
@@ -40,21 +35,20 @@
                 </ul>
             </div>
 
-        <!-- Policies Section -->
-        <div class="footer-column">
-            <h4>Policies & Information</h4>
-            <ul>
-                <li><a href="/policy_pages/ShippingPolicy.html">Shipping Policy</a></li>
-                <li><a href="/policy_pages/ReturnAndRefundPolicy.html">Returns & Refunds</a></li>
-                <li><a href="/policy_pages/PrivacyPolicy.html">Privacy Policy</a></li>
-                <li><a href="/policy_pages/TermsOfService.html">Terms of Service</a></li>
-                <li><a href="/policy_pages/CookiesPolicy.html">Cookies Policy</a></li>
-            </ul>
+            <!-- Policies Section -->
+            <div class="footer-column">
+                <h4>Policies & Information</h4>
+                <ul>
+                    <li><a href="/policy_pages/ShippingPolicy.html">Shipping Policy</a></li>
+                    <li><a href="/policy_pages/ReturnAndRefundPolicy.html">Returns & Refunds</a></li>
+                    <li><a href="/policy_pages/PrivacyPolicy.html">Privacy Policy</a></li>
+                    <li><a href="/policy_pages/TermsOfService.html">Terms of Service</a></li>
+                    <li><a href="/policy_pages/CookiesPolicy.html">Cookies Policy</a></li>
+                </ul>
             </div>
         </div>
     </div>
-    
-    
+
     <!-- Bottom section with logo, language & country selection, and legal links -->
     <div class="footer-bottom">
         <div class="footer-logo">
@@ -74,3 +68,20 @@
         </ul>
     </div>
 </footer>
+
+<!-- ✅ Script to Ensure Footer Loads Before Cart UI Initializes -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Footer loaded. Initializing cart UI...");
+        if (typeof initializeCartUI === "function") {
+            initializeCartUI();
+        } else {
+            console.warn("initializeCartUI function not found. Retrying...");
+            setTimeout(() => {
+                if (typeof initializeCartUI === "function") {
+                    initializeCartUI();
+                }
+            }, 1000);
+        }
+    });
+</script>
