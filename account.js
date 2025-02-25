@@ -1,5 +1,23 @@
-// Firebase and DOM initialization
+// Load environment variables before executing anything else
+async function loadEnv() {
+    try {
+        const response = await fetch("/api/env.js");
+        const scriptText = await response.text();
+        const script = document.createElement("script");
+        script.textContent = scriptText;
+        document.head.appendChild(script);
+        console.log("Environment variables loaded from /api/env.js");
+    } catch (error) {
+        console.error("Failed to load environment variables:", error);
+    }
+}
+
+// Ensure env variables are loaded before Firebase initializes
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("account.js: DOM fully loaded and parsed");
+
+    await loadEnv(); // ✅ Now, this will properly load the environment variables before Firebase initializes
+
     console.log("account.js: DOM fully loaded and parsed");
 
     try {

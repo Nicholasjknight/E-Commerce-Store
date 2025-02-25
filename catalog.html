@@ -5,22 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalog</title>
-
+    
     <!-- Styles and Favicon -->
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
 
-    <!-- Load Environment Variables First -->
+    <!-- Environment Variables (Ensures API Key is Available) -->
     <script src="/env.js"></script>
 
-    <!-- Firebase SDK (Fixes "firebase is not defined" issue) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    
-    <!-- Snipcart Styles -->
+    <!-- Snipcart Styles and Script -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
-
-    <!-- Snipcart API Key Configuration (Fixes "Invalid API Key" error) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const snipcartDiv = document.getElementById("snipcart");
@@ -29,13 +23,11 @@
             }
         });
     </script>
-
-    <!-- Load Snipcart AFTER Setting API Key -->
     <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
 
     <!-- Essential Scripts -->
     <script defer src="/script.js"></script>
-    <script defer src="/account.js"></script>
+    <script type="module" src="/account.js"></script>
 </head>
 
 <body>
@@ -62,68 +54,54 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Merged Initialization Logic -->
+    <!-- Snipcart Initialization -->
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            console.log("Catalog page scripts initializing...");
-
-            // Ensure Snipcart is Ready Before Updating Cart UI
+        document.addEventListener("DOMContentLoaded", () => {
             const checkSnipcartReady = setInterval(() => {
                 if (window.Snipcart && window.Snipcart.store) {
                     console.log("Snipcart is ready!");
                     if (typeof initializeCartUI === "function") {
-                        initializeCartUI();
+                        initializeCartUI(); // Ensure cart UI updates correctly
                     }
                     clearInterval(checkSnipcartReady);
                 }
             }, 500);
+        });
+    </script>
 
-            document.addEventListener("snipcart.ready", () => {
-                console.log("Snipcart is fully initialized.");
-                if (typeof initializeCartUI === "function") {
-                    initializeCartUI();
+    <!-- Load Products & Sorting -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const { loadProducts, renderProducts } = await import('/render_products.js');
+            const products = await loadProducts();
+
+            const renderAllProducts = () => {
+                renderProducts(products, 'catalog-container');
+            };
+
+            // Add filter functionality
+            const filterSelect = document.getElementById('filterOptions');
+            filterSelect.addEventListener('change', () => {
+                const sortOption = filterSelect.value;
+                let sortedProducts = [...products];
+
+                if (sortOption === 'az') {
+                    sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                } else if (sortOption === 'lowPrice') {
+                    sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
+                } else if (sortOption === 'highPrice') {
+                    sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
                 }
+
+                renderProducts(sortedProducts, 'catalog-container');
             });
 
-            // Load Products & Sorting
-            try {
-                const { loadProducts, renderProducts } = await import('/render_products.js');
-                const products = await loadProducts();
+            renderAllProducts();
 
-                const renderAllProducts = () => {
-                    renderProducts(products, 'catalog-container');
-                };
-
-                // Add filter functionality
-                const filterSelect = document.getElementById('filterOptions');
-                filterSelect.addEventListener('change', () => {
-                    const sortOption = filterSelect.value;
-                    let sortedProducts = [...products];
-
-                    if (sortOption === 'az') {
-                        sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-                    } else if (sortOption === 'lowPrice') {
-                        sortedProducts.sort((a, b) => a.offers[0].price - b.offers[0].price);
-                    } else if (sortOption === 'highPrice') {
-                        sortedProducts.sort((a, b) => b.offers[0].price - a.offers[0].price);
-                    }
-
-                    renderProducts(sortedProducts, 'catalog-container');
-                });
-
-                renderAllProducts();
-            } catch (error) {
-                console.error("Error loading product data:", error);
-            }
-
-            // Load Header and Footer
+            // Load header and footer
             fetch('/header.html')
                 .then(response => response.text())
                 .then(data => document.getElementById('header-placeholder').innerHTML = data)
-                .then(() => {
-                    console.log("Header loaded. Checking login state...");
-                    updateSignInLink();  // Ensure the Sign In / Sign Out button updates correctly
-                })
                 .catch(error => console.error('Error loading header:', error));
 
             fetch('/footer.html')
@@ -131,34 +109,6 @@
                 .then(data => document.getElementById('footer-placeholder').innerHTML = data)
                 .catch(error => console.error('Error loading footer:', error));
         });
-
-        // Ensure Sign In / Sign Out updates properly
-        function updateSignInLink() {
-            console.log("Checking user login status...");
-            const signInLink = document.getElementById("signInLink");
-            if (!signInLink) {
-                console.warn("Sign In link not found in header.");
-                return;
-            }
-
-            const user = firebase.auth().currentUser;
-            if (user) {
-                signInLink.innerHTML = `<a href="#" onclick="signOut()">Sign Out</a>`;
-                console.log(`User signed in: ${user.email}`);
-            } else {
-                signInLink.innerHTML = `<a href="#" onclick="openModal('loginModal')">Sign In</a>`;
-                console.log("User is not signed in.");
-            }
-        }
-
-        function signOut() {
-            firebase.auth().signOut().then(() => {
-                console.log("User signed out.");
-                updateSignInLink();
-            }).catch(error => {
-                console.error("Error signing out:", error);
-            });
-        }
     </script>
 
     <!-- Additional Scripts -->
