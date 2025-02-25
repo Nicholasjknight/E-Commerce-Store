@@ -19,19 +19,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Wait for the header before initializing Firebase
     const waitForHeader = setInterval(() => {
-        const signInLink = document.querySelector("#signInLink");
-        if (signInLink) {
+        if (document.querySelector("#signInLink")) {
             console.log("Header detected. Now initializing Firebase...");
             clearInterval(waitForHeader);
-
-            // Proceed with Firebase initialization
-            initializeFirebase();
+            initializeFirebase(); // ✅ Call Firebase init after header is ready
         }
     }, 100);
+});
 
-
-    console.log("account.js: DOM fully loaded and parsed");
-
+// Firebase initialization function
+async function initializeFirebase() {
     try {
         // Import Firebase SDK modules dynamically
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
@@ -51,10 +48,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             storageBucket: window.env?.FIREBASE_STORAGE_BUCKET || "",
             messagingSenderId: window.env?.FIREBASE_MESSAGING_SENDER_ID || "",
             appId: window.env?.FIREBASE_APP_ID || ""
-        };   
-        
+        };
 
-        // Debugging: Log the config being used
         console.log("Firebase Config Loaded:", firebaseConfig);
 
         // Initialize Firebase App and Auth
@@ -80,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         await signOut(auth);
                         alert("You have been signed out.");
                         currentUser = null;
-                        location.reload(); // Refresh UI
+                        location.reload();
                     };
                 }
                 if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${user.email}`;
@@ -97,60 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (welcomeMessage) welcomeMessage.textContent = "Welcome, Guest";
             }
         });
-
-        // Registration form handling
-        const registerForm = document.getElementById("registerForm");
-        if (registerForm) {
-            registerForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("register-email")?.value;
-                const password = document.getElementById("register-password")?.value;
-                const confirmPassword = document.getElementById("confirm-password")?.value;
-
-                if (!email || !password || !confirmPassword || password !== confirmPassword) {
-                    alert("All fields are required and passwords must match!");
-                    return;
-                }
-
-                try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    currentUser = userCredential.user;
-                    console.log("Registration successful:", currentUser.email);
-                    closeModal("registerModal");
-                    alert("Registration successful. Please sign in.");
-                    openModal("loginModal");
-                } catch (error) {
-                    console.error("Error creating account:", error.message);
-                    alert("Registration failed: " + error.message);
-                }
-            });
-        }
-
-        // Login form handling
-        const loginForm = document.getElementById("loginForm");
-        if (loginForm) {
-            loginForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("login-email")?.value;
-                const password = document.getElementById("login-password")?.value;
-
-                if (!email || !password) {
-                    alert("All fields are required");
-                    return;
-                }
-
-                try {
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    currentUser = userCredential.user;
-                    console.log("Login successful:", currentUser.email);
-                    closeModal("loginModal");
-                    openModal("customerDashboardModal");
-                } catch (error) {
-                    console.error("Error signing in:", error.message);
-                    alert("Login failed: " + error.message);
-                }
-            });
-        }
 
         // Initialize customer dashboard
         function initializeDashboard() {
@@ -173,75 +114,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const observer = new MutationObserver(() => {
             if (headerPlaceholder && headerPlaceholder.children.length > 0) {
                 initializeDashboard();
-                observer.disconnect(); // Stop observing after initialization
+                observer.disconnect();
             }
         });
 
         observer.observe(headerPlaceholder, { childList: true });
-        initializeDashboard(); // Ensure it works for non-dynamic headers
+        initializeDashboard();
     } catch (error) {
         console.error("Error initializing Firebase:", error.message);
     }
-
-    const passwordInput = document.getElementById("register-password");
-    const confirmPasswordInput = document.getElementById("confirm-password");
-    const registerButton = document.getElementById("registerButton");
-    const passwordFeedback = document.getElementById("passwordFeedback");
-    const confirmPasswordFeedback = document.getElementById("confirmPasswordFeedback");
-    const passwordStrengthBar = document.getElementById("password-strength");
-
-    if (passwordInput && confirmPasswordInput) {
-        function checkPasswordStrength(password) {
-            let strength = "weak";
-            if (password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password) && /\W/.test(password)) {
-                strength = "strong";
-            } else if (password.length >= 6 && /[A-Z]/.test(password)) {
-                strength = "medium";
-            }
-            return strength;
-        }
-
-        passwordInput.addEventListener("input", function () {
-            const strength = checkPasswordStrength(passwordInput.value);
-            passwordStrengthBar.setAttribute("data-strength", strength);
-
-            if (strength === "strong") {
-                passwordFeedback.textContent = "Strong password!";
-                passwordFeedback.style.color = "green";
-            } else if (strength === "medium") {
-                passwordFeedback.textContent = "Medium strength password.";
-                passwordFeedback.style.color = "orange";
-            } else {
-                passwordFeedback.textContent = "Weak password. Try adding more characters, numbers, or symbols.";
-                passwordFeedback.style.color = "red";
-            }
-            passwordFeedback.style.display = "block";
-
-            registerButton.disabled = !(strength === "strong" && document.getElementById("terms-checkbox").checked);
-        });
-
-        confirmPasswordInput.addEventListener("input", function () {
-            if (confirmPasswordInput.value !== passwordInput.value) {
-                confirmPasswordFeedback.textContent = "Passwords do not match!";
-                confirmPasswordFeedback.style.color = "red";
-                confirmPasswordFeedback.style.display = "block";
-                registerButton.disabled = true;
-            } else {
-                confirmPasswordFeedback.textContent = "Passwords match!";
-                confirmPasswordFeedback.style.color = "green";
-                confirmPasswordFeedback.style.display = "block";
-                registerButton.disabled = !document.getElementById("terms-checkbox").checked;
-            }
-        });
-
-        document.getElementById("terms-checkbox")?.addEventListener("change", function () {
-            const strength = checkPasswordStrength(passwordInput.value);
-            registerButton.disabled = !(this.checked && strength === "strong" && confirmPasswordInput.value === passwordInput.value);
-        });
-    } else {
-        console.warn("Registration form elements not found.");
-    }
-});
+}
 
 // Modal management
 function openModal(modalId) {
@@ -271,6 +153,7 @@ function closeAllModals(exceptions = []) {
         }
     });
 }
+
 // Password visibility toggle
 function togglePasswordVisibility(passwordFieldId) {
     const passwordField = document.getElementById(passwordFieldId);
