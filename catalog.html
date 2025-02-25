@@ -16,15 +16,13 @@
     <!-- Snipcart Styles -->
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
 
-    <!-- Ensure Snipcart API Key is Set BEFORE Snipcart Loads -->
+    <!-- Snipcart API Key Configuration (Ensures It's Set Before Snipcart Loads) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const snipcartDiv = document.getElementById("snipcart");
-
             if (!snipcartDiv.hasAttribute("data-api-key")) {
-                snipcartDiv.setAttribute("data-api-key", "Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2");
+                snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY || "YOUR_DEFAULT_API_KEY_HERE");
             }
-            console.log("✅ Snipcart API Key Applied:", snipcartDiv.getAttribute("data-api-key"));
         });
     </script>
 
@@ -38,7 +36,7 @@
 
 <body>
     <!-- Snipcart API Key Configuration -->
-    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
 
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
@@ -68,7 +66,7 @@
             // Ensure Snipcart is Ready Before Updating Cart UI
             const checkSnipcartReady = setInterval(() => {
                 if (window.Snipcart && window.Snipcart.store) {
-                    console.log("✅ Snipcart is ready!");
+                    console.log("Snipcart is ready!");
                     if (typeof initializeCartUI === "function") {
                         initializeCartUI(); // Ensure cart UI updates correctly
                     }
@@ -104,19 +102,19 @@
 
                 renderAllProducts();
             } catch (error) {
-                console.error("❌ Error loading product data:", error);
+                console.error("Error loading product data:", error);
             }
 
             // Load Header and Footer
             fetch('/header.html')
                 .then(response => response.text())
                 .then(data => document.getElementById('header-placeholder').innerHTML = data)
-                .catch(error => console.error('❌ Error loading header:', error));
+                .catch(error => console.error('Error loading header:', error));
 
             fetch('/footer.html')
                 .then(response => response.text())
                 .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-                .catch(error => console.error('❌ Error loading footer:', error));
+                .catch(error => console.error('Error loading footer:', error));
         });
     </script>
 
