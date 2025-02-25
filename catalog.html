@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalog</title>
-    
+
     <!-- Styles and Favicon -->
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="/images/Man Kave Text.png" type="image/x-icon">
@@ -19,9 +19,12 @@
     <!-- Snipcart API Key Configuration (Ensures It's Set Before Snipcart Loads) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const snipcartDiv = document.getElementById("snipcart");
-            if (!snipcartDiv.hasAttribute("data-api-key")) {
-                snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY || "");
+            const snipcartDiv = document.querySelector("#snipcart");
+            if (snipcartDiv) {
+                snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY);
+                console.log("✅ Snipcart API Key Set:", snipcartDiv.getAttribute("data-api-key"));
+            } else {
+                console.error("❌ Snipcart div not found!");
             }
         });
     </script>
@@ -61,14 +64,14 @@
     <!-- Merged Initialization Logic -->
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("Catalog page scripts initializing...");
+            console.log("📌 Catalog page scripts initializing...");
 
             // Ensure Snipcart is Ready Before Updating Cart UI
             const checkSnipcartReady = setInterval(() => {
                 if (window.Snipcart && window.Snipcart.store) {
-                    console.log("Snipcart is ready!");
+                    console.log("✅ Snipcart is ready!");
                     if (typeof initializeCartUI === "function") {
-                        initializeCartUI();
+                        initializeCartUI(); // Ensure cart UI updates correctly
                     }
                     clearInterval(checkSnipcartReady);
                 }
@@ -102,22 +105,19 @@
 
                 renderAllProducts();
             } catch (error) {
-                console.error("Error loading product data:", error);
+                console.error("❌ Error loading product data:", error);
             }
 
             // Load Header and Footer
             fetch('/header.html')
                 .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-placeholder').innerHTML = data;
-                    initializeCartUI(); // Ensure cart UI updates correctly
-                })
-                .catch(error => console.error('Error loading header:', error));
+                .then(data => document.getElementById('header-placeholder').innerHTML = data)
+                .catch(error => console.error('❌ Error loading header:', error));
 
             fetch('/footer.html')
                 .then(response => response.text())
                 .then(data => document.getElementById('footer-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading footer:', error));
+                .catch(error => console.error('❌ Error loading footer:', error));
         });
     </script>
 
