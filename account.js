@@ -125,39 +125,56 @@ async function initializeFirebase() {
     }
 }
 
-// Modal management
-function openModal(modalId) {
-    const allModals = document.querySelectorAll('.modal2, .modal3');
-    allModals.forEach(modal => modal.style.display = 'none');
+// ✅ Fix: Ensure modal functions are **global** across all pages (including catalog.html)
+window.openModal = function (modalId) {
+    const allModals = document.querySelectorAll(".modal2, .modal3");
+    allModals.forEach(modal => modal.style.display = "none"); // Close all other modals
 
     const targetModal = document.getElementById(modalId);
     if (targetModal) {
-        targetModal.style.display = 'block';
+        targetModal.style.display = "block";
+        console.log(`Modal ${modalId} opened.`);
     } else {
         console.warn(`Modal with ID "${modalId}" not found.`);
     }
-}
+};
 
-function closeModal(modalId) {
+window.closeModal = function (modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = "none";
+        console.log(`Modal ${modalId} closed.`);
+    } else {
+        console.warn(`Modal with ID "${modalId}" not found.`);
     }
-}
+};
 
-function closeAllModals(exceptions = []) {
+// ✅ Fix: Attach close event for dashboard close button (X)
+document.addEventListener("DOMContentLoaded", () => {
+    const closeDashboardBtn = document.querySelector("#customerDashboardModal .modal-close");
+    if (closeDashboardBtn) {
+        closeDashboardBtn.addEventListener("click", () => {
+            closeModal("customerDashboardModal");
+        });
+    } else {
+        console.warn("Dashboard close button not found.");
+    }
+});
+
+// Close all modals except specified exceptions
+window.closeAllModals = function (exceptions = []) {
     const modals = document.querySelectorAll(".modal3");
     modals.forEach(modal => {
         if (!exceptions.includes(modal.id)) {
             modal.style.display = "none";
         }
     });
-}
+};
 
 // Password visibility toggle
-function togglePasswordVisibility(passwordFieldId) {
+window.togglePasswordVisibility = function (passwordFieldId) {
     const passwordField = document.getElementById(passwordFieldId);
     if (passwordField) {
         passwordField.type = passwordField.type === "password" ? "text" : "password";
     }
-}
+};
