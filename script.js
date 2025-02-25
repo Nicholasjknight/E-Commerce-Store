@@ -4,7 +4,7 @@ function initializeThemeToggle() {
 
     if (!themeToggle) {
         console.warn("Theme toggle button not found. Skipping initialization.");
-        return; // Exit if the button doesn't exist
+        return;
     }
 
     // Apply the saved theme
@@ -20,13 +20,21 @@ function initializeThemeToggle() {
     });
 }
 
-// Ensure Snipcart API key is applied **before Snipcart loads**
-document.addEventListener("DOMContentLoaded", () => {
-    const snipcartDiv = document.getElementById("snipcart");
-    if (!snipcartDiv.hasAttribute("data-api-key")) {
-        snipcartDiv.setAttribute("data-api-key", window.env?.SNIPCART_API_KEY || "YOUR_DEFAULT_API_KEY_HERE");
+// Ensure Snipcart updates the cart count correctly
+function waitForSnipcart() {
+    if (window.Snipcart && window.Snipcart.store) {
+        console.log("Snipcart is already loaded. Initializing UI.");
+        initializeCartUI();
+    } else {
+        document.addEventListener("snipcart.ready", () => {
+            console.log("Snipcart is fully initialized!");
+            initializeCartUI();
+        });
     }
-});
+}
+
+// Run immediately in case Snipcart is already ready
+setTimeout(waitForSnipcart, 500);
 
 // Wrap remaining logic in DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const themeToggle = document.getElementById("theme-toggle");
             if (themeToggle) {
                 initializeThemeToggle();
-                observer.disconnect(); // Stop observing once initialized
+                observer.disconnect();
             }
         });
         observer.observe(headerPlaceholder, { childList: true });

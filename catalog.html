@@ -100,9 +100,23 @@
 
             // Load header and footer
             fetch('/header.html')
-                .then(response => response.text())
-                .then(data => document.getElementById('header-placeholder').innerHTML = data)
-                .catch(error => console.error('Error loading header:', error));
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        console.log("Header loaded. Now initializing Firebase...");
+        
+        // Ensure Firebase authentication updates Sign In/Sign Out link
+        if (typeof updateSignInLink === "function") {
+            updateSignInLink();
+        }
+
+        // Ensure cart count updates after header is loaded
+        if (typeof initializeCartUI === "function") {
+            initializeCartUI();
+        }
+    })
+    .catch(error => console.error('Error loading header:', error));
+
 
             fetch('/footer.html')
                 .then(response => response.text())

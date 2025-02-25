@@ -12,11 +12,23 @@ async function loadEnv() {
     }
 }
 
-// Ensure env variables are loaded before Firebase initializes
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("account.js: DOM fully loaded and parsed");
 
-    await loadEnv(); // ✅ Now, this will properly load the environment variables before Firebase initializes
+    await loadEnv(); // ✅ Ensures environment variables load before Firebase.
+
+    // Wait for the header before initializing Firebase
+    const waitForHeader = setInterval(() => {
+        const signInLink = document.querySelector("#signInLink");
+        if (signInLink) {
+            console.log("Header detected. Now initializing Firebase...");
+            clearInterval(waitForHeader);
+
+            // Proceed with Firebase initialization
+            initializeFirebase();
+        }
+    }, 100);
+
 
     console.log("account.js: DOM fully loaded and parsed");
 
