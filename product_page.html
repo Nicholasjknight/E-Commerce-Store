@@ -90,11 +90,14 @@
             height: 80px; /* Thumbnail height */
             object-fit: cover;
             border: 2px solid transparent;
-            transition: border-color 0.2s ease;
-        }
+            transition: transform 0.2s ease-in-out;        }
 
         .variant-option.active .variant-thumbnail {
             border-color: #e60023; /* Highlight the selected thumbnail */
+        }
+        .variant-option:hover .variant-thumbnail, 
+        .thumbnail:hover {
+            transform: scale(1.08); /* Slightly enlarges the image more */
         }
         /* Styling for size options */
         #sizeOptions {
@@ -138,13 +141,6 @@
             width: 100% !important;
             margin: 15px auto;
         }
-        #addToCartButton {
-            width: 95%;
-            height: 40px;
-            margin: 15px auto;
-            background-color: #e60023;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -179,18 +175,26 @@
             <p>Size: <span id="selectedSize">Default</span></p>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" value="1" min="1">
-            <button id="addToCartButton" class="snipcart-add-item">Add to Cart</button>
-            <button id="buyNowButton" 
-            class="snipcart-add-item" 
-            data-item-id="" 
-            data-item-name="" 
-            data-item-price="" 
-            data-item-url="" 
-            data-item-description="" 
-            data-item-image="" 
-            data-item-quantity="">
-        Buy Now
-    </button>
+            <div class="button-group">
+                <button id="addToCartButton" class="product-button snipcart-add-item">
+                    Add to Cart
+                </button>
+                
+                <button id="buyNowButton" 
+                    class="product-button snipcart-add-item" 
+                    data-config-add-product-behavior="none" 
+                    data-item-id="" 
+                    data-item-name="" 
+                    data-item-price="" 
+                    data-item-url="" 
+                    data-item-description="" 
+                    data-item-image="" 
+                    data-item-quantity="">
+                    Buy Now
+                </button>
+            </div>
+            
+    
     
            
         </div>

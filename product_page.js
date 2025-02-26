@@ -419,23 +419,53 @@ function updateMainImage(imageSrc) {
 }
 
 function handleBuyNow() {
-  const price = parseFloat(document.getElementById("productPrice").textContent.replace("$", "")) || 0;
-  const quantity = parseInt(document.getElementById("quantity").value, 10) || 1;
+    const buyNowButton = document.getElementById("buyNowButton");
 
-  // Validate price and quantity
-  if (isNaN(price) || price <= 0 || quantity <= 0) {
-      console.error("Invalid price or quantity for Buy Now action.");
-      alert("Error: Invalid product information. Please check the price and quantity.");
-      return;
-  }
+    if (!buyNowButton) {
+        console.error("Buy Now button not found!");
+        return;
+    }
 
-  // Ensure proper redirection to checkout
-  const currentURL = window.location.href.split("#")[0]; // Remove existing hash fragments
-  const checkoutURL = `${currentURL}#/checkout`;
+    const price = parseFloat(document.getElementById("productPrice").textContent.replace("$", "")) || 0;
+    const quantity = parseInt(document.getElementById("quantity").value, 10) || 1;
+    const selectedVariant = document.getElementById("selectedVariant").textContent || "Default";
+    const selectedVariantThumbnail = document.getElementById("selectedVariantThumbnail").src;
+    const selectedSize = document.getElementById("selectedSize")?.textContent || "Default";
+    
+    if (isNaN(price) || price <= 0 || quantity <= 0) {
+        console.error("Invalid price or quantity for Buy Now action.");
+        alert("Error: Invalid product information. Please check the price and quantity.");
+        return;
+    }
 
-  console.log(`Redirecting to Checkout: ${checkoutURL}`);
-  window.location.href = checkoutURL;
+    // Generate a unique ID
+    const uniqueId = `${handle}-${selectedVariant}-${selectedSize}`;
+
+    // Update Buy Now button attributes
+    buyNowButton.setAttribute("data-item-id", uniqueId);
+    buyNowButton.setAttribute("data-item-name", `${productData.name} - ${selectedVariant}`);
+    buyNowButton.setAttribute("data-item-price", price.toFixed(2));
+    buyNowButton.setAttribute("data-item-url", window.location.href);
+    buyNowButton.setAttribute("data-item-description", productData.description);
+    buyNowButton.setAttribute("data-item-image", selectedVariantThumbnail);
+    buyNowButton.setAttribute("data-item-quantity", quantity);
+
+    console.log("✅ Buy Now Attributes Set:", {
+        id: uniqueId,
+        name: `${productData.name} - ${selectedVariant}`,
+        price: price.toFixed(2),
+        quantity: quantity,
+    });
+
+    // Programmatically trigger Snipcart checkout
+    setTimeout(() => {
+        window.location.href = window.location.origin + "/#/checkout";
+    }, 500); // Delay to allow Snipcart to process the item before redirecting
 }
+
+// Attach event listener
+document.getElementById("buyNowButton").addEventListener("click", handleBuyNow);
+
 
   function addToCart(handle) {
     let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");

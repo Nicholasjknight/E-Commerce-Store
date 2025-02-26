@@ -1008,7 +1008,169 @@ button:disabled {
     height: auto;
     margin-right: 10px;
 }
-/* Modal2 background overlay */
+.snipcart-summary-fees__amount, 
+.snipcart-summary-fees__title, 
+.snipcart-summary__total, 
+.snipcart-summary__title {
+    color: #333 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+
+.snipcart-cart-header__title, 
+.snipcart-checkout__title {
+    color: #222 !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+}
+.snipcart-item-line__container {
+    border-bottom: 1px solid #ddd !important;
+}
+
+.snipcart-summary__content {
+    border-top: 2px solid #ddd !important;
+    padding-top: 10px !important;
+}
+.snipcart-button-primary {
+    background-color: #007bff !important;
+    color: #fff !important;
+    border: 1px solid #007bff !important;
+    padding: 10px 15px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease-in-out !important;
+    width: 90%;
+}
+
+.snipcart-button-primary:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+    color: #f5c43c !important;
+
+}
+.snipcart-base-button__wrapper {
+    display: flex;
+    align-items: center;   /* Aligns items vertically */
+    justify-content: center; /* Centers the text */
+    position: relative;
+    width: 100%;
+}
+
+.snipcart-base-button__label {
+    flex: 1;               /* Ensures text occupies available space */
+    text-align: center;    /* Keeps text centered */
+}
+
+.snipcart-base-button__icon {
+    position: absolute;
+    right: 15px;  /* Adjust spacing if needed */
+    top: 50%;
+    transform: translateY(-50%); /* Centers the icon vertically */
+    display: flex;
+    align-items: center;
+}
+.snipcart-button-secondary {
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+}
+.snipcart-summary-fees__total {
+    text-align: center; /* Centers text */
+    display: flex;
+    flex-direction: column; /* Stacks title and amount */
+    align-items: center; /* Centers horizontally */
+    justify-content: center; /* Centers vertically */
+    padding-bottom: 15px !important; /* Adds spacing below */
+    width: 90%; /* Ensures it spans the full width */
+    max-width: var(--snipcart-button-width, 100%); /* Matches Checkout button width */
+}
+
+.snipcart-form__input, 
+.snipcart-input {
+    border: 1px solid #ccc !important;
+    background-color: #fff !important;
+    color: #333 !important;
+    padding: 10px !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.snipcart-form__input:focus, 
+.snipcart-input:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+}
+.snipcart-featured-payment-methods__link {
+    color: black !important;
+    text-decoration: none !important;
+}
+/* Ensure input fields have visible borders */
+.snipcart-form__input, 
+.snipcart-form__select, 
+.snipcart-form__select:focus, 
+.snipcart-form__input:focus {
+    border: 1px solid #ccc !important; /* Light gray border */
+    border-radius: 4px; /* Keeps consistency with other fields */
+    background-color: #fff; /* Ensures background is white */
+}
+
+/* Ensure dropdown (select fields) have a border */
+.snipcart-form__select {
+    appearance: none; /* Removes default browser styles */
+    padding: 8px;
+}
+
+/* Fix dropdown alignment issues */
+.snipcart-form__select-wrapper {
+    border: 1px solid #ccc !important;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Ensure the Province/State and Country dropdowns look consistent */
+.snipcart-form__select-wrapper select {
+    width: 100%;
+    padding: 8px;
+}
+/* Ensure the total and secured payment section align properly */
+.snipcart-summary-fees__total, 
+.snipcart-payment {
+    display: flex;
+    justify-content: space-between; /* Aligns elements to edges */
+    align-items: center; /* Centers vertically */
+    width: 100%;
+}
+
+/* Adjusts the Secured by Snipcart section */
+.snipcart-payment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+}
+
+/* Aligns the text and payment icons in a row */
+.snipcart-featured-payment-methods__link {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust space between icon and text */
+}
+
+/* Ensure the Total price stays aligned */
+.snipcart-summary-fees__amount {
+    font-weight: bold;
+    font-size: 1.2em; /* Adjust for better visibility */
+}
+
+/* Ensures payment icons (Visa, Mastercard) are properly sized */
+.snipcart-featured-payment-methods img {
+    width: 40px; /* Adjust icon size */
+    height: auto;
+}
+
 .modal2 {
     display: none;
     position: fixed;
@@ -1455,21 +1617,53 @@ h1 {
     align-items: center;
     padding: 10px;
 }
-#buyNowButton {
-    display: block;
-    margin: 10px auto; /* Centers the button horizontally */
-    width: 90%; /* Adjusts the button width to 90% of the parent container */
-    max-width: 400px; /* Optionally set a maximum width to ensure consistent design */
-    padding: 10px 20px; /* Adjust padding for better appearance */
-    font-size: 16px; /* Ensures readability */
-    background-color: #ff4500; /* Change to your desired color */
-    color: white;
+/* Container for both buttons */
+.button-group {
+    display: flex;
+    flex-direction: column; /* Align buttons vertically */
+    align-items: center;
+    gap: 10px; /* Space between buttons */
+    width: 100%; /* Make sure both buttons take full width */
+}
+
+/* Common button styling */
+.product-button {
+    width: 100%; /* Make both buttons take up the full width */
+    height: 45px; /* Ensure same height */
+    font-size: 16px; /* Ensure consistent font size */
     border: none;
-    border-radius: 5px; /* Rounds corners */
+    border-radius: 5px;
     cursor: pointer;
-    text-align: center;
+    font-weight: bold;
+}
+
+/* Add to Cart Button */
+#addToCartButton {
+    background-color: #e60023;
+    color: white;
+    width: 100%;
+    height: 5vh;
+    margin-top: 1vh;
+}
+
+/* Buy Now Button */
+#buyNowButton {
+    background-color: #ffcc00;
+    color: rgb(37, 36, 36);
+    height: 5vh;
+}
+
+/* Hover Effects - Slight Enlargement */
+#addToCartButton:hover, #buyNowButton:hover {
+    transform: scale(1.05); /* Slightly enlarges the button */
+    transition: transform 0.2s ease-in-out; /* Smooth animation */
+}
+
+/* Optional: Change text color on hover */
+#addToCartButton:hover {
+    color: #e6b800;
 }
 
 #buyNowButton:hover {
-    background-color: #ff6347; /* Slightly lighter shade on hover */
+    color: white;
 }
