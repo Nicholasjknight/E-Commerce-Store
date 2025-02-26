@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="./images/Man Kave Text.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    <script type="module" src="script.js"></script>
+    <script src="/env.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,6 +66,11 @@
             font-size: 20px;
             font-weight: bold;
             color: #e60023;
+            margin: 0 auto;
+        }
+        #productPrice {
+        text-align: center;
+        padding: 10px;
         }
         .variant-options {
             margin: 20px 0;
@@ -144,7 +152,9 @@
     </style>
 </head>
 <body>
-    <!-- Header Placeholder -->
+    <!-- Snipcart data element for API key -->
+    <div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
+
     <div id="header-placeholder"></div>
 
     <div class="container2">
@@ -205,43 +215,39 @@
 
     <!-- Scripts -->
     <script>
-        // Load header and footer dynamically
-        fetch('header.html')
+        fetch('/header.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
+        
+                // Observe the header-placeholder for changes to ensure #theme-toggle exists
+                const observer = new MutationObserver(() => {
+                    const themeToggle = document.getElementById("theme-toggle");
+                    if (themeToggle) {
+                        initializeThemeToggle(); // Initialize theme toggle
+                        observer.disconnect(); // Stop observing after initialization
+                    }
+                });
+        
+                observer.observe(document.getElementById('header-placeholder'), { childList: true, subtree: true });
             })
             .catch(error => console.error('Error loading header:', error));
-
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-placeholder').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading footer:', error));
-    </script>
+        
+                fetch('footer.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('footer-placeholder').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error loading footer:', error));
+            </script>
 
     <script src="product_page.js"></script>
     <script src="script.js"></script>
     <script src="account.js"></script>
+    <script type="module" src="/JSON-LD_breadcrumbs.js"></script>
+    <script src="/search.js"></script>
 
 
-<div hidden id="snipcart" data-api-key="Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2"></div>
-<script>
-    window.SnipcartSettings = {
-        publicApiKey: 'Njg5ZjVkMjAtNzk5Ny00ZjRhLTg2YTctOGZlY2NjNzA4ZDNkNjM4NjU5OTY3MDg3MTg0MzA2',
-        loadStrategy: 'on-user-interaction',
-    };
-
-    (() => {
-        var c, d;
-        (d = (c = window.SnipcartSettings).version) != null || (c.version = "3.0");
-        var s = document.createElement("script");
-        s.src = `https://cdn.snipcart.com/themes/v${window.SnipcartSettings.version}/default/snipcart.js`;
-        s.async = true;
-        document.head.appendChild(s);
-    })();
-</script>
 
 </body>
 </html>
