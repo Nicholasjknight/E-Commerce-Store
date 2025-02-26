@@ -73,39 +73,151 @@ async function initializeFirebase() {
 
         // Global user state
         let currentUser = null;
+// Handle user authentication state changes
+onAuthStateChanged(auth, (user) => {
+    const signInLink = document.querySelector("#signInLink");
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    const createAccountLink = document.getElementById("createAccountLink"); // ✅ Add reference to "Create Account" link
 
-        // Handle user authentication state changes
-        onAuthStateChanged(auth, (user) => {
-            const signInLink = document.querySelector("#signInLink");
-            const welcomeMessage = document.getElementById("welcomeMessage");
+    if (user) {
+        currentUser = user;
+        console.log("User signed in:", user.email);
 
-            if (user) {
-                currentUser = user;
-                console.log("User signed in:", user.email);
-                if (signInLink) {
-                    signInLink.innerHTML = '<a href="#">Sign Out</a>';
-                    signInLink.onclick = async (e) => {
-                        e.preventDefault();
-                        await signOut(auth);
-                        alert("You have been signed out.");
-                        currentUser = null;
-                        location.reload();
-                    };
-                }
-                if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${user.email}`;
-            } else {
+        // Change "Sign In" to "Sign Out"
+        if (signInLink) {
+            signInLink.innerHTML = '<a href="#">Sign Out</a>';
+            signInLink.onclick = async (e) => {
+                e.preventDefault();
+                await signOut(auth);
+                alert("You have been signed out.");
                 currentUser = null;
-                console.log("No user signed in.");
-                if (signInLink) {
-                    signInLink.innerHTML = '<a href="#">Sign In</a>';
-                    signInLink.onclick = (e) => {
-                        e.preventDefault();
-                        openModal("loginModal");
-                    };
-                }
-                if (welcomeMessage) welcomeMessage.textContent = "Welcome, Guest";
+                location.reload();
+            };
+        }
+
+        // Display welcome message with user email
+        if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${user.email}`;
+
+        // ✅ Ensure the email field in the dashboard modal is populated
+        updateUserEmail(user.email);
+
+        // ✅ Hide "Create Account" when logged in
+        if (createAccountLink) createAccountLink.style.display = "none"; 
+
+    } else {
+        currentUser = null;
+        console.log("No user signed in.");
+
+        // Show "Sign In" option
+        if (signInLink) {
+            signInLink.innerHTML = '<a href="#">Sign In</a>';
+            signInLink.onclick = (e) => {
+                e.preventDefault();
+                openModal("loginModal");
+            };
+        }
+
+        // Show "Create Account" when not logged in
+        if (createAccountLink) createAccountLink.style.display = "inline";
+
+        // Display guest message
+        if (welcomeMessage) welcomeMessage.textContent = "Welcome, Guest";
+
+        // Clear email input if logged out
+        updateUserEmail("");
+    }
+});
+
+        // Function to update the email field inside the dashboard modal
+        function updateUserEmail(email) {
+            const emailInput = document.getElementById("email");
+            if (emailInput) {
+                emailInput.value = email || "Not Logged In";
+                console.log("✅ Email set in dashboard:", email || "No email available");
+            }
+        }
+
+        // Ensure email updates when the dashboard modal opens
+        document.addEventListener("DOMContentLoaded", () => {
+            const dashboardModal = document.getElementById("customerDashboardModal");
+
+            if (dashboardModal) {
+                dashboardModal.addEventListener("click", () => {
+                    if (currentUser) {
+                        updateUserEmail(currentUser.email);
+                    } else {
+                        updateUserEmail("Not Logged In");
+                    }
+                });
             }
         });
+        async function loadOrderHistory() {
+            const orderList = document.getElementById("orderList");
+        
+            if (!window.Snipcart || !Snipcart.api.user.getToken) {
+                console.error("Snipcart is not fully loaded yet.");
+                return;
+            }
+        
+            // Get user token to authenticate API request
+            const userToken = await Snipcart.api.user.getToken();
+            
+            if (!userToken) {
+                orderList.innerHTML = "<p>You must be logged in to see your order history.</p>";
+                return;
+            }
+        
+            // Fetch orders using Snipcart API
+            try {
+                const response = await fetch("https://app.snipcart.com/api/orders", {
+                    headers: {
+                        "Authorization": `Bearer ${userToken}`,
+                        "Accept": "application/json"
+                    }
+                });
+        
+                if (!response.ok) {
+                    throw new Error("Failed to fetch orders.");
+                }
+        
+                const data = await response.json();
+        
+                // If no orders, display message
+                if (data.items.length === 0) {
+                    orderList.innerHTML = "<p>No Order History</p>";
+                    return;
+                }
+        
+                // Generate order history table
+                let orderHistoryHTML = "<table class='order-table'><thead><tr><th>Order ID</th><th>Date</th><th>Total</th><th>Status</th></tr></thead><tbody>";
+        
+                data.items.forEach(order => {
+                    orderHistoryHTML += `
+                        <tr>
+                            <td>${order.invoiceNumber}</td>
+                            <td>${new Date(order.creationDate).toLocaleDateString()}</td>
+                            <td>$${order.finalGrandTotal.toFixed(2)}</td>
+                            <td>${order.status}</td>
+                        </tr>
+                    `;
+                });
+        
+                orderHistoryHTML += "</tbody></table>";
+        
+                // Inject into the order list div
+                orderList.innerHTML = orderHistoryHTML;
+        
+            } catch (error) {
+                console.error("Error fetching order history:", error);
+                orderList.innerHTML = "<p>Error loading order history.</p>";
+            }
+        }
+        
+        // Call function after user logs in
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(loadOrderHistory, 3000); // Delayed call to allow Snipcart to fully load
+        });
+        
 
         // Initialize customer dashboard
         function initializeDashboard() {

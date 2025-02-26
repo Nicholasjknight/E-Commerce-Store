@@ -103,15 +103,11 @@ body.dark-mode .product-recommendations {
     background-color: black;
     color: black;
 }
-
-
-
 /* Dark Mode: Product Titles and Descriptions */
 body.dark-mode .product-recommendations .product-card .product-title,
 body.dark-mode .product-recommendations .product-card .product-description {
     color: black;
 }
-
 /* Dark Mode: Product Prices */
 body.dark-mode .product-recommendations .product-card .product-price {
     color: red; /* Highlight prices in a contrasting color */
@@ -121,20 +117,55 @@ body.dark-mode .main-content {
     background-color: #1d1c1c;
     color: white; /* Ensure text is readable */
 }
-
 /* Dark Mode: Slideshow Section */
 body.dark-mode .slideshow-section {
     background-color: #222
 }
-
 /* Dark Mode: Product Recommendations */
 body.dark-mode .product-recommendations {
     background-color: #222;
 }
+/* Dark Mode Adjustments */
+body.dark-mode #sidebarPrice,
+body.dark-mode label[for="quantity"],
+body.dark-mode p#selectedVariantText,
+body.dark-mode span#selectedVariant {
+    color: black !important; /* Ensure ALL text inside this element is black */
+}
 
+body.dark-mode .product-title {
+    color: white !important; /* Ensure product title remains white in dark mode */
+}
+/* Dark Mode: Ensure customer dashboard text is black */
+.dark-mode #customerDashboardModal {
+    color: black !important;
+}
 
+/* Ensure input fields and text areas have black text */
+.dark-mode #customerDashboardModal input,
+.dark-mode #customerDashboardModal textarea,
+.dark-mode #customerDashboardModal button,
+.dark-mode #customerDashboardModal h2,
+.dark-mode #customerDashboardModal h3,
+.dark-mode #customerDashboardModal label {
+    color: black !important;
+}
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
 
+.order-table th, .order-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
 
+.order-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
 
 
 

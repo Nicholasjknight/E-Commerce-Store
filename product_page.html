@@ -149,6 +149,13 @@
             width: 100% !important;
             margin: 15px auto;
         }
+        /* Make quantity input full width */
+        #quantity {
+            width: 100% !important;
+            max-width: 100%;
+            box-sizing: border-box; /* Ensures it respects padding and borders */
+        }
+
     </style>
 </head>
 <body>
@@ -180,7 +187,7 @@
         <!-- Sidebar -->
         <div class="checkout-sidebar">
             <h3 id="sidebarPrice">$0.00</h3>
-            <p>Selected Variant: <span id="selectedVariant">Default</span></p>
+            <p id="selectedVariantText">Selected Variant: <span id="selectedVariant">Default</span></p>
             <img id="selectedVariantThumbnail" src="" alt="Selected Variant" style="width: 50px; height: auto;">
             <p>Size: <span id="selectedSize">Default</span></p>
             <label for="quantity">Quantity:</label>
