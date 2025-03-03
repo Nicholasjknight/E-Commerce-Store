@@ -1120,7 +1120,66 @@ button:disabled {
         left: -3vw;
     }
 }
+/* Responsive Adjustments */
+@media (max-width: 670px) {
+    .header-row {
+        justify-content: center;
+        text-align: center;
+    }
+    @media (max-width: 768px) {
+        .footer-links {
+            width: 100vw;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .footer-column, .footer-column1 {
+            width: 100%; /* Make columns take full width */
+            max-width: 400px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .footer-links {
+            flex-direction: column;
+            flex-shrink: calc(90% - 1); /* Allow wrapping */
+            justify-content: center;
+            padding: 10px;
+            gap: 10px;
+        }
+    
+        .footer-column h4, .footer-column1 h4 {
+            font-size: 12px;
+        }
+    
+        .footer-column ul li, .footer-column1 ul li {
+            font-size: 12px;
+        }
+    }
+    /* Logo Moves Above */
+    .col-logo {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 10px;
+        flex-wrap: nowrap;
+    }
+    .col-search {
+        display: none;
+    }
+    /* Search Bar & Cart Stay in One Row */
+    .col-search, .col-cart {
+        flex: 1;
+        max-width: 100%;
+    }
 
+    .search-input {
+        max-width: 100%; /* Ensures full width on mobile */
+    }
+
+    .cart-summary {
+        justify-content: center;
+    }
+}
 .snipcart-modal__container {
     max-width: 80% !important;
     left: 10% !important; /* Center horizontally */
