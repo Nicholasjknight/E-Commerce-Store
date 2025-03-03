@@ -115,15 +115,24 @@
             console.log("DOM fully loaded and parsed.");
 
             // Load Header and initialize cart after loading
-            fetch('/header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-placeholder').innerHTML = data;
-                    if (typeof initializeCartUI === "function") {
-                        initializeCartUI();
-                    }
-                })
-                .catch(error => console.error('Error loading header:', error));
+fetch('/header.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+
+        // Ensure Dark Mode is Initialized AFTER Header Loads
+        if (typeof initializeThemeToggle === "function") {
+            initializeThemeToggle();
+        } else {
+            console.error("❌ initializeThemeToggle function not found after loading header!");
+        }
+
+        if (typeof initializeCartUI === "function") {
+            initializeCartUI();
+        }
+    })
+    .catch(error => console.error('Error loading header:', error));
+
 
             // Load Footer
             fetch('/footer.html')

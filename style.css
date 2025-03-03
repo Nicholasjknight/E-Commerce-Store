@@ -153,6 +153,18 @@ body.dark-mode .product-title {
 body.dark-mode .product-card .product-title {
     color: black !important;
 }
+body.dark-mode.policy-page {
+    background-color: #121212 !important;
+    color: white !important;
+}
+body.dark-mode .social-media img[alt="Twitter"] {
+    content: url("/images/XLogoWhite.png");
+}
+
+body:not(.dark-mode) .social-media img[alt="Twitter"] {
+    content: url("/images/XLogoBlack.png");
+}
+
 
 .order-table {
     width: 100%;
@@ -1013,6 +1025,101 @@ button:disabled {
 .checkout-sidebar {
     max-width: 30%;
 }
+/* Ensure the main container is flexible */
+.container2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Ensure Image Gallery & Product Details Take Up Space */
+.image-gallery, .product-details {
+    flex: 1;
+    max-width: 600px; /* Prevents images from getting too large */
+}
+
+/* Responsive Images */
+.main-image {
+    width: 100%;
+    max-width: 500px; /* Set a limit for large screens */
+    height: auto;
+    object-fit: cover;
+}
+
+.thumbnail {
+    width: 80px; /* Adjusted size for smaller screens */
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+/* Ensure Thumbnail Row is Responsive */
+.thumbnail-row {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+}
+
+/* Sidebar default width */
+.checkout-sidebar {
+    width: 300px;
+    min-width: 250px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments for Smaller Screens */
+@media (max-width: 1024px) {
+    .container2 {
+        flex-wrap: wrap; /* Allow stacking on smaller screens */
+        justify-content: center;
+    }
+
+    .image-gallery {
+        width: 100%; /* Full width for better mobile experience */
+        text-align: center;
+    }
+
+    .product-details {
+        width: 100%;
+    }
+
+    /* Sidebar moves below product details on smaller screens */
+    .checkout-sidebar {
+        width: 100%;
+        max-width: 100px;
+        margin-top: 20px;
+        position: relative;
+    }
+}
+
+/* Adjustments for very small screens */
+@media (max-width: 800px) {
+    .checkout-sidebar {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px 15px;
+    }
+    .menu-list {
+        height: 3vh;
+    }
+    .menu-list li a {
+        display: none;
+    }
+    .slideshow-section{
+        height: 20vh;
+        padding: 15px;
+    }
+    .slideshow img {
+        object-fit: fill;
+        left: -3vw;
+    }
+}
 
 .snipcart-modal__container {
     max-width: 80% !important;
@@ -1691,4 +1798,73 @@ h1 {
 
 #buyNowButton:hover {
     color: white;
+}
+/* Contact Us Page */
+/* Center the contact section */
+.contact {
+    max-width: 800px;
+    margin: 0 auto;
+
+}
+
+/* Improve Contact Info Alignment */
+.contact-options ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-options ul li {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+/* Styling for input fields */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Contact Form Button */
+.contact-form button {
+    width: 100%;
+    background-color: #fbbb65;
+    color: black;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #e69a50;
+}
+
+/* Center and Style Social Media Icons */
+.social-media ul {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 0;
+}
+
+.social-media ul li {
+    list-style: none;
+}
+
+.social-media ul li a img {
+    width: 40px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.social-media ul li a img:hover {
+    transform: scale(1.1);
 }

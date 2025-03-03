@@ -14,11 +14,7 @@
         body {
             font-family: Arial, sans-serif;
         }
-        .container2 {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-        }
+
         .image-gallery {
             display: flex;
             flex-direction: column;
@@ -33,19 +29,20 @@
             overflow: hidden;
         }
 
-        .thumbnail-row {
-            display: flex;
-            justify-content: space-between; /* Distribute thumbnails evenly */
-            gap: 10px;
-        }
-
         .thumbnail {
-            width: calc((100% - 30px) / 4); /* Adjust width for 4 thumbnails per row */
-            height: auto;
-            object-fit: cover;
-            border: 2px solid transparent;
-            cursor: pointer;
-        }
+    width: 80px; /* Adjusted size for smaller screens */
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+/* Ensure Thumbnail Row is Responsive */
+.thumbnail-row {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+}
 
         .thumbnail.active {
             border-color: #333;
@@ -138,13 +135,6 @@
             border-color: #999;
         }
 
-        .checkout-sidebar {
-            width: 300px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f8f8f8;
-        }
         .checkout-sidebar img{
             width: 100% !important;
             margin: 15px auto;

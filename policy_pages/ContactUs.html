@@ -94,12 +94,21 @@
                 <h2>Connect with Us</h2>
                 <p>Follow us on social media for updates, promotions, and more:</p>
                 <ul>
-                    <li><a href="https://facebook.com/mankave" target="_blank">Facebook</a></li>
-                    <li><a href="https://instagram.com/mankave" target="_blank">Instagram</a></li>
-                    <li><a href="https://twitter.com/mankave" target="_blank">Twitter</a></li>
-                    <li><a href="https://pinterest.com/mankave" target="_blank">Pinterest</a></li>
+                    <li><a href="https://facebook.com/mankave" target="_blank">
+                        <img src="/images/Facebook_Logo_Primary.png" alt="Facebook">
+                    </a></li>
+                    <li><a href="https://instagram.com/mankave" target="_blank">
+                        <img src="/images/InstagramLogo.png" alt="Instagram">
+                    </a></li>
+                    <li><a href="https://twitter.com/mankave" target="_blank">
+                        <img src="/images/XLogoBlack.png" alt="Twitter">
+                    </a></li>
+                    <li><a href="https://pinterest.com/mankave" target="_blank">
+                        <img src="/images/PintrestLogo.png" alt="Pinterest">
+                    </a></li>
                 </ul>
             </div>
+            
         </section>
     </main>
 
@@ -113,14 +122,23 @@
 
             // Load Header and initialize cart after loading
             fetch('/header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-placeholder').innerHTML = data;
-                    if (typeof initializeCartUI === "function") {
-                        initializeCartUI();
-                    }
-                })
-                .catch(error => console.error('Error loading header:', error));
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+
+        // Ensure Dark Mode is Initialized AFTER Header Loads
+        if (typeof initializeThemeToggle === "function") {
+            initializeThemeToggle();
+        } else {
+            console.error("❌ initializeThemeToggle function not found after loading header!");
+        }
+
+        if (typeof initializeCartUI === "function") {
+            initializeCartUI();
+        }
+    })
+    .catch(error => console.error('Error loading header:', error));
+
 
             // Load Footer
             fetch('/footer.html')
