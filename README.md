@@ -1,59 +1,40 @@
-# E-Commerce Store
+# Knight Logics e-commerce
 
-This repository is a legacy e-commerce storefront prototype built around a static front end, product data files, and Snipcart-based cart/checkout behavior.
+Public status for the online stores run by [Knight Logics](https://knightlogics.com). Production source code is private and does not deploy from this repository. Nothing here is store code.
 
-## Current Status
+| Store | Site | Stage |
+|---|---|---|
+| ManCaves.Store | https://mancaves.store | Live. Man cave, garage, bar, and game room goods. Ships to U.S. addresses only. Stripe Checkout. |
+| Knight Jewelry | https://knightjewelry.store | Prelaunch. Site is up, crawlers are blocked, checkout is off. |
 
-This is best treated as a prototype and portfolio case study rather than a primary Knight Logics production product.
+## Current status
 
-## What It Does
+[STATUS.md](STATUS.md) is rewritten daily at 11:15 UTC by the `Store status` GitHub Action, reading only public endpoints. Raw data is in [status/](status/). If `STATUS.md` is more than 48 hours old, the action failed; check the Actions tab.
 
-The project implements a storefront flow with:
+## Verifying ManCaves.Store yourself
 
-- catalog and product listing pages
-- product detail pages with variant handling
-- JSON- and CSV-driven product data
-- Snipcart cart integration
-- recommendation sections using local storage history
-- Vercel deployment configuration
+- `https://mancaves.store/api/store-health`: live checkout gate. `checks.verification` gives ship-to countries, the age of catalog, stock, and freight verification against the limits checkout enforces (36 hours for catalog, 192 hours for stock and freight evidence), checkout-safe variants per warehouse, and the claim window count per product.
+- Checkout refuses any variant that fails those limits, so a stale number means the item cannot be bought, not that it sells on old data.
+- `https://mancaves.store/sitemap.xml`, `https://mancaves.store/llms.txt`, `https://mancaves.store/llms-full.txt`, and `/products/{PRODUCT_ID}.llms.txt` per product.
+- Claims and returns: each product page states its own claim window, matching the supplier's window for that product type. Most items have 30 days from delivery for damage, defect, or wrong-item claims with photos or video. Items marked supplier-handled have no set window. There are no change-of-mind returns. Policy: https://mancaves.store/policy_pages/ReturnAndRefundPolicy.html
 
-## Technical Notes
+## How ManCaves.Store runs
 
-The repository currently includes:
+- Static storefront with serverless API functions. Stripe Checkout is limited to U.S. shipping addresses.
+- Stock and availability are re-checked daily. Out-of-stock or no-longer-shippable variants are hidden automatically. New products are added weekly in small batches.
+- Every catalog change regenerates product pages, structured data, the sitemap, and the llms files, then runs consistency checks before publishing. Publishing stops if a check fails.
+- Paid orders are recorded from the Stripe webhook. Each supplier purchase is approved by a person.
 
-- storefront pages in HTML/CSS/JavaScript
-- data files such as `updated_products.json` and `updated_products.csv`
-- dynamic rendering logic in `render_products.js`, `product_page.js`, and `search.js`
-- policy and collection pages
-- deployment config via `vercel.json`
+## Knight Jewelry
 
-## Why It Matters
+Prelaunch storefront. Checkout stays off and `robots.txt` blocks crawlers until launch. `STATUS.md` shows the change when that happens.
 
-Even as a legacy prototype, this repo is useful as a case study for:
+## Legacy prototype
 
-- storefront UX implementation
-- data-driven front-end rendering
-- lightweight commerce integrations
-- product catalog architecture without a full custom backend
+The March 2026 Snipcart prototype that used to be on `main` is preserved on the [`legacy-snipcart-2026-03`](https://github.com/Nicholasjknight/E-Commerce-Store/tree/legacy-snipcart-2026-03) branch. It is not what runs on either live site. Do not audit the stores from it.
 
-## Local Development
+## For automated auditors
 
-Serve the project locally with a static server:
-
-```bash
-python -m http.server 8000
-```
-
-Then open `http://localhost:8000`.
-
-## Deployment
-
-The repository includes Vercel configuration and can be deployed as a static storefront with client-side product rendering.
-
-## Recommended Positioning
-
-Use this as a legacy commerce prototype in GitHub and Upwork narratives, not as a flagship Knight Logics product.
-
-## License
-
-No additional license beyond repository terms.
+- Read `STATUS.md` and `status/*.json` first. They are the newest facts in this repository.
+- Treat the live `store-health` endpoint and the live pages as the source of truth. This repository only mirrors them.
+- Do not infer current store behavior, pricing, or checkout from the legacy branch.
