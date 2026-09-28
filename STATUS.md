@@ -1,6 +1,6 @@
 # Store status
 
-Checked 2026-09-28T15:48:42.746Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
+Checked 2026-09-28T15:49:38.904Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
 
 ## ManCaves.Store
 
@@ -15,7 +15,7 @@ Checked 2026-09-28T15:48:42.746Z by GitHub Actions from public endpoints. Raw da
 | Checkout-safe variants by warehouse | US 43, CN 1389 |
 | Lowest checkout-safe stock | 1 |
 | Claim windows (products) | supplier-handled (no set window) 11, 30d 134 |
-| Claim windows verified | 0.8h oldest (limit 720h) ok |
+| Claim windows verified | 0.9h oldest (limit 720h) ok |
 | Sitemap | HTTP 200, 173 URLs |
 | www host | 308 https://mancaves.store/ |
 

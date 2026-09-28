@@ -1,7 +1,7 @@
 {
   "store": "ManCaves.Store",
   "url": "https://mancaves.store/",
-  "checkedAt": "2026-09-28T15:48:42.746Z",
+  "checkedAt": "2026-09-28T15:49:38.904Z",
   "health": {
     "status": 200,
     "ok": true,
@@ -50,7 +50,7 @@
     "claimWindowVerified": {
       "oldest": "2026-09-28T14:57:50.615Z",
       "newest": "2026-09-28T14:57:50.615Z",
-      "oldestAgeHours": 0.8
+      "oldestAgeHours": 0.9
     }
   },
   "crawl": {
