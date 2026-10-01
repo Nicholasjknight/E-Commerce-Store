@@ -1,7 +1,7 @@
 {
   "store": "ManCaves.Store",
   "url": "https://mancaves.store/",
-  "checkedAt": "2026-09-30T11:24:22.286Z",
+  "checkedAt": "2026-10-01T11:25:29.252Z",
   "health": {
     "status": 200,
     "ok": true,
@@ -24,19 +24,19 @@
     "catalogMaxAgeHours": 36,
     "evidenceMaxAgeHours": 192,
     "catalogVerified": {
-      "oldest": "2026-09-30T10:00:03.963Z",
-      "newest": "2026-09-30T10:05:27.633Z",
+      "oldest": "2026-10-01T10:00:05.159Z",
+      "newest": "2026-10-01T10:05:26.034Z",
       "oldestAgeHours": 1.4
     },
     "stockVerified": {
-      "oldest": "2026-09-30T10:00:03.817Z",
-      "newest": "2026-09-30T10:05:27.435Z",
+      "oldest": "2026-10-01T10:00:04.970Z",
+      "newest": "2026-10-01T10:05:25.719Z",
       "oldestAgeHours": 1.4
     },
     "freightVerified": {
       "oldest": "2026-09-27T11:00:04.175Z",
       "newest": "2026-09-27T11:07:51.646Z",
-      "oldestAgeHours": 72.4
+      "oldestAgeHours": 96.4
     },
     "checkoutSafeByWarehouse": {
       "US": 43,
@@ -50,7 +50,7 @@
     "claimWindowVerified": {
       "oldest": "2026-09-28T14:57:50.615Z",
       "newest": "2026-09-28T14:57:50.615Z",
-      "oldestAgeHours": 44.4
+      "oldestAgeHours": 68.5
     }
   },
   "crawl": {
