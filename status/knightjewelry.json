@@ -1,15 +1,15 @@
 {
   "store": "Knight Jewelry",
   "url": "https://knightjewelry.store/",
-  "checkedAt": "2026-10-11T11:24:19.293Z",
+  "checkedAt": "2026-10-12T11:29:16.840Z",
   "stage": "indexable",
   "home": {
-    "status": 200,
-    "title": "Knight Jewelry | Fine Jewelry"
+    "status": 402,
+    "title": null
   },
   "crawl": {
     "robotsBlocksAll": false,
-    "sitemapStatus": 200,
-    "sitemapUrls": 1878
+    "sitemapStatus": 402,
+    "sitemapUrls": null
   }
 }
