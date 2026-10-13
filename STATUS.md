@@ -1,29 +1,29 @@
 # Store status
 
-Checked 2026-10-12T11:29:16.840Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
+Checked 2026-10-13T11:28:23.242Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
 
 ## ManCaves.Store
 
 | Check | Value |
 |---|---|
-| Health | HTTP 402, ok=false, salesReady=false, checkout=off, build null |
-| Catalog | null products, null variants, null checkout-safe, null blocked |
-| Ships to | n/a |
-| Catalog verified | n/a |
-| Stock verified | n/a |
-| Freight verified | n/a |
-| Checkout-safe variants by warehouse | n/a |
-| Lowest checkout-safe stock | n/a |
-| Claim windows (products) | n/a |
-| Claim windows verified | n/a |
-| Sitemap | HTTP 402, null URLs |
-| www host | 402 |
+| Health | HTTP 200, ok=true, salesReady=true, checkout=on, build 20260904-trust1 |
+| Catalog | 145 products, 1430 variants, 1430 checkout-safe, 0 blocked |
+| Ships to | US |
+| Catalog verified | 25.5h oldest (limit 36h) ok |
+| Stock verified | 25.5h oldest (limit 192h) ok |
+| Freight verified | 48.5h oldest (limit 192h) ok |
+| Checkout-safe variants by warehouse | US 41, CN 1389 |
+| Lowest checkout-safe stock | 1 |
+| Claim windows (products) | supplier-handled (no set window) 11, 30d 134 |
+| Claim windows verified | 356.5h oldest (limit 720h) ok |
+| Sitemap | HTTP 200, 173 URLs |
+| www host | 308 https://mancaves.store/ |
 
 ## Knight Jewelry
 
 | Check | Value |
 |---|---|
-| Stage | indexable |
-| Home | HTTP 402, "null" |
-| robots.txt blocks all crawlers | false |
-| Sitemap | HTTP 402, null URLs |
+| Stage | prelaunch |
+| Home | HTTP 200, "Knight Jewelry | Fine Jewelry" |
+| robots.txt blocks all crawlers | true |
+| Sitemap | HTTP 200, 1877 URLs |
