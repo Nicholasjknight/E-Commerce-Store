@@ -1,21 +1,21 @@
 # Store status
 
-Checked 2026-10-13T11:28:23.242Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
+Checked 2026-10-14T11:26:08.610Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
 
 ## ManCaves.Store
 
 | Check | Value |
 |---|---|
-| Health | HTTP 200, ok=true, salesReady=true, checkout=on, build 20260904-trust1 |
-| Catalog | 145 products, 1430 variants, 1430 checkout-safe, 0 blocked |
+| Health | HTTP 503, ok=false, salesReady=false, checkout=on, build 20260904-trust1 |
+| Catalog | 145 products, 1430 variants, 0 checkout-safe, 1430 blocked |
 | Ships to | US |
-| Catalog verified | 25.5h oldest (limit 36h) ok |
-| Stock verified | 25.5h oldest (limit 192h) ok |
-| Freight verified | 48.5h oldest (limit 192h) ok |
-| Checkout-safe variants by warehouse | US 41, CN 1389 |
-| Lowest checkout-safe stock | 1 |
+| Catalog verified | 49.4h oldest (limit 36h) STALE |
+| Stock verified | n/a |
+| Freight verified | n/a |
+| Checkout-safe variants by warehouse | n/a |
+| Lowest checkout-safe stock | n/a |
 | Claim windows (products) | supplier-handled (no set window) 11, 30d 134 |
-| Claim windows verified | 356.5h oldest (limit 720h) ok |
+| Claim windows verified | 380.5h oldest (limit 720h) ok |
 | Sitemap | HTTP 200, 173 URLs |
 | www host | 308 https://mancaves.store/ |
 
