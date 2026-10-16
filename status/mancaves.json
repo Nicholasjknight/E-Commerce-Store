@@ -1,23 +1,21 @@
 {
   "store": "ManCaves.Store",
   "url": "https://mancaves.store/",
-  "checkedAt": "2026-10-15T11:24:21.211Z",
+  "checkedAt": "2026-10-16T11:24:29.926Z",
   "health": {
-    "status": 503,
-    "ok": false,
-    "salesReady": false,
+    "status": 200,
+    "ok": true,
+    "salesReady": true,
     "checkoutEnabled": true,
     "build": "20260904-trust1"
   },
   "catalog": {
     "products": 145,
     "variants": 1430,
-    "checkoutSafeVariants": 0,
-    "checkoutBlockedVariants": 1430,
-    "blockedReasons": {
-      "catalog_stale": 1430
-    },
-    "evidenceReady": false
+    "checkoutSafeVariants": 1430,
+    "checkoutBlockedVariants": 0,
+    "blockedReasons": {},
+    "evidenceReady": true
   },
   "verification": {
     "shipsTo": [
@@ -26,22 +24,25 @@
     "catalogMaxAgeHours": 36,
     "evidenceMaxAgeHours": 192,
     "catalogVerified": {
-      "oldest": "2026-10-12T10:00:05.614Z",
-      "newest": "2026-10-12T10:05:52.085Z",
-      "oldestAgeHours": 73.4
+      "oldest": "2026-10-16T10:00:05.774Z",
+      "newest": "2026-10-16T10:05:45.229Z",
+      "oldestAgeHours": 1.4
     },
     "stockVerified": {
-      "oldest": null,
-      "newest": null,
-      "oldestAgeHours": null
+      "oldest": "2026-10-16T10:00:05.328Z",
+      "newest": "2026-10-16T10:05:44.870Z",
+      "oldestAgeHours": 1.4
     },
     "freightVerified": {
-      "oldest": null,
-      "newest": null,
-      "oldestAgeHours": null
+      "oldest": "2026-10-11T11:00:03.210Z",
+      "newest": "2026-10-11T11:07:43.843Z",
+      "oldestAgeHours": 120.4
     },
-    "checkoutSafeByWarehouse": {},
-    "lowestCheckoutSafeStock": null,
+    "checkoutSafeByWarehouse": {
+      "US": 41,
+      "CN": 1389
+    },
+    "lowestCheckoutSafeStock": 1,
     "claimWindows": {
       "supplierHandled": 11,
       "30d": 134
@@ -49,7 +50,7 @@
     "claimWindowVerified": {
       "oldest": "2026-09-28T14:57:50.615Z",
       "newest": "2026-09-28T14:57:50.615Z",
-      "oldestAgeHours": 404.4
+      "oldestAgeHours": 428.4
     }
   },
   "crawl": {

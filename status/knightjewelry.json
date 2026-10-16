@@ -1,15 +1,15 @@
 {
   "store": "Knight Jewelry",
   "url": "https://knightjewelry.store/",
-  "checkedAt": "2026-10-15T11:24:21.211Z",
+  "checkedAt": "2026-10-16T11:24:29.926Z",
   "stage": "prelaunch",
   "home": {
     "status": 200,
-    "title": "Knight Jewelry | Fine Jewelry"
+    "title": "Knight Jewelry | Engagement Rings, Diamonds &amp; Gold Chains"
   },
   "crawl": {
     "robotsBlocksAll": true,
     "sitemapStatus": 200,
-    "sitemapUrls": 1877
+    "sitemapUrls": 1865
   }
 }
