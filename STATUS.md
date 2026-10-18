@@ -1,22 +1,22 @@
 # Store status
 
-Checked 2026-10-17T11:21:37.821Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
+Checked 2026-10-18T11:21:18.399Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
 
 ## ManCaves.Store
 
 | Check | Value |
 |---|---|
 | Health | HTTP 200, ok=true, salesReady=true, checkout=on, build 20260904-trust1 |
-| Catalog | 145 products, 1429 variants, 1429 checkout-safe, 0 blocked |
+| Catalog | 144 products, 1422 variants, 1422 checkout-safe, 0 blocked |
 | Ships to | US |
-| Catalog verified | 1.4h oldest (limit 36h) ok |
-| Stock verified | 1.4h oldest (limit 192h) ok |
-| Freight verified | 144.4h oldest (limit 192h) ok |
-| Checkout-safe variants by warehouse | US 40, CN 1389 |
+| Catalog verified | 0.4h oldest (limit 36h) ok |
+| Stock verified | 0.4h oldest (limit 192h) ok |
+| Freight verified | 0.4h oldest (limit 192h) ok |
+| Checkout-safe variants by warehouse | US 33, CN 1389 |
 | Lowest checkout-safe stock | 1 |
-| Claim windows (products) | supplier-handled (no set window) 11, 30d 134 |
-| Claim windows verified | 452.4h oldest (limit 720h) ok |
-| Sitemap | HTTP 200, 173 URLs |
+| Claim windows (products) | supplier-handled (no set window) 11, 30d 133 |
+| Claim windows verified | 476.4h oldest (limit 720h) ok |
+| Sitemap | HTTP 200, 172 URLs |
 | www host | 308 https://mancaves.store/ |
 
 ## Knight Jewelry
