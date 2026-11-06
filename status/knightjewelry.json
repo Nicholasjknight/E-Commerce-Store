@@ -1,7 +1,7 @@
 {
   "store": "Knight Jewelry",
   "url": "https://knightjewelry.store/",
-  "checkedAt": "2026-11-05T11:17:24.578Z",
+  "checkedAt": "2026-11-06T11:17:49.796Z",
   "stage": "prelaunch",
   "home": {
     "status": 200,
@@ -10,6 +10,6 @@
   "crawl": {
     "robotsBlocksAll": true,
     "sitemapStatus": 200,
-    "sitemapUrls": 2733
+    "sitemapUrls": 2737
   }
 }
