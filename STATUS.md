@@ -1,6 +1,6 @@
 # Store status
 
-Checked 2026-11-12T11:17:40.764Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
+Checked 2026-11-13T11:18:01.690Z by GitHub Actions from public endpoints. Raw data: [status/](status/).
 
 ## ManCaves.Store
 
@@ -9,13 +9,13 @@ Checked 2026-11-12T11:17:40.764Z by GitHub Actions from public endpoints. Raw da
 | Health | HTTP 503, ok=false, salesReady=false, checkout=on, build 20260904-trust1 |
 | Catalog | 144 products, 1419 variants, 0 checkout-safe, 1419 blocked |
 | Ships to | US |
-| Catalog verified | 241.3h oldest (limit 36h) STALE |
+| Catalog verified | 265.3h oldest (limit 36h) STALE |
 | Stock verified | n/a |
 | Freight verified | n/a |
 | Checkout-safe variants by warehouse | n/a |
 | Lowest checkout-safe stock | n/a |
 | Claim windows (products) | supplier-handled (no set window) 11, 30d 133 |
-| Claim windows verified | 1076.3h oldest (limit 720h) STALE |
+| Claim windows verified | 1100.3h oldest (limit 720h) STALE |
 | Sitemap | HTTP 200, 171 URLs |
 | www host | 308 https://mancaves.store/ |
 
@@ -26,4 +26,4 @@ Checked 2026-11-12T11:17:40.764Z by GitHub Actions from public endpoints. Raw da
 | Stage | prelaunch |
 | Home | HTTP 200, "Knight Jewelry | Engagement Rings, Diamonds &amp; Gold Chains" |
 | robots.txt blocks all crawlers | true |
-| Sitemap | HTTP 200, 2734 URLs |
+| Sitemap | HTTP 200, 2727 URLs |
