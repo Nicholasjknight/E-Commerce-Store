@@ -1,7 +1,7 @@
 {
   "store": "ManCaves.Store",
   "url": "https://mancaves.store/",
-  "checkedAt": "2026-11-27T11:18:02.008Z",
+  "checkedAt": "2026-11-28T11:17:57.674Z",
   "health": {
     "status": 503,
     "ok": false,
@@ -28,7 +28,7 @@
     "catalogVerified": {
       "oldest": "2026-11-02T10:00:28.312Z",
       "newest": "2026-11-02T10:29:32.585Z",
-      "oldestAgeHours": 601.3
+      "oldestAgeHours": 625.3
     },
     "stockVerified": {
       "oldest": null,
@@ -49,7 +49,7 @@
     "claimWindowVerified": {
       "oldest": "2026-09-28T14:57:50.615Z",
       "newest": "2026-10-31T10:05:42.015Z",
-      "oldestAgeHours": 1436.3
+      "oldestAgeHours": 1460.3
     }
   },
   "crawl": {
